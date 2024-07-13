@@ -32,81 +32,81 @@ public class AirlinesConsoleAdapter {
     public void createAirline() {
         String option = "S";
         while (option.equalsIgnoreCase("S")) {
-            System.out.println("[*] INGRESE EL ID DE LA AEROLINEA");
+            System.out.println("INGRESE EL ID DE LA AEROLINEA");
             String newId = scanner.nextLine();
             Optional<Airline> airline = airlineSearchService.getAirlineById(newId);
             airline.ifPresentOrElse(
                 a -> {
-                    System.out.println("[!] AEROLINEA YA EXISTENTE");
-                    System.out.println("[*] PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+                    System.out.println("AEROLINEA YA EXISTENTE");
+                    System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
                     scanner.nextLine();
                 },
                 () -> {
-                    System.out.println("[*] INGRESE EL NOMBRE DE LA AEROLINEA A CREAR");
+                    System.out.println("INGRESE EL NOMBRE DE LA AEROLINEA A CREAR");
                     String nameAirline = scanner.nextLine();
                     Airline newAirline = new Airline(newId, nameAirline);
                     airlineCreateService.createAirline(newAirline);
                 }
             );
-            System.out.println("[*] DESEA CREAR OTRA AEROLINEA? [S] SI | [CUALQUIER TECLA] NO");
+            System.out.println("DESEA CREAR OTRA AEROLINEA? [S] SI | [CUALQUIER TECLA] NO");
             option = scanner.nextLine();
         }
     }
 
     public void searchAirline() {
-        System.out.println("[*] INGRESE EL ID DE LA AEROLINEA A BUSCAR");
+        System.out.println("INGRESE EL ID DE LA AEROLINEA A BUSCAR");
         String airlineId = scanner.nextLine();
         Optional<Airline> airline = airlineSearchService.getAirlineById(airlineId);
         airline.ifPresentOrElse(
-            a -> System.out.println("[*] ID: " + a.getId() + " NOMBRE: " + a.getName()),
-            () -> System.out.println("[!] AEROLINEA NO ENCONTRADA")
+            a -> System.out.println("ID: " + a.getId() + " NOMBRE: " + a.getName()),
+            () -> System.out.println("AEROLINEA NO ENCONTRADA")
         );
-        System.out.println("[*] PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+        System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
         scanner.nextLine();
     }
 
     public void updateAirline() {
-        System.out.println("[*] INGRESE EL ID DE LA AEROLINEA A EDITAR");
+        System.out.println("INGRESE EL ID DE LA AEROLINEA A EDITAR");
         String airlineId = scanner.nextLine();
         Optional<Airline> airline = airlineSearchService.getAirlineById(airlineId);
         airline.ifPresentOrElse(
             a -> {
-                System.out.println("[*] ID: " + a.getId() + " NOMBRE: " + a.getName());
-                System.out.println("[*] INGRESE EL NUEVO NOMBRE DE LA AEROLINEA");
+                System.out.println("ID: " + a.getId() + " NOMBRE: " + a.getName());
+                System.out.println("INGRESE EL NUEVO NOMBRE DE LA AEROLINEA");
                 String newName = scanner.nextLine();
                 Airline updatedAirline = new Airline(a.getId(), newName);
                 airlineUpdateService.updateAirline(updatedAirline);
             },
-            () -> System.out.println("[!] AEROLINEA NO ENCONTRADA")
+            () -> System.out.println("AEROLINEA NO ENCONTRADA")
         );
-        System.out.println("[*] PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+        System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
         scanner.nextLine();
     }
 
     public void deleteAirline() {
-        System.out.println("[*] INGRESE EL ID DE LA AEROLINEA A ELIMINAR");
+        System.out.println("INGRESE EL ID DE LA AEROLINEA A ELIMINAR");
         String airlineId = scanner.nextLine();
         Optional<Airline> airline = airlineSearchService.getAirlineById(airlineId);
         airline.ifPresentOrElse(
             a -> {
                 airlineDeleteService.deleteAirline(airlineId);
-                System.out.println("[*] AEROLINEA ELIMINADA");
+                System.out.println("AEROLINEA ELIMINADA");
             },
-            () -> System.out.println("[!] AEROLINEA NO ENCONTRADA")
+            () -> System.out.println("AEROLINEA NO ENCONTRADA")
         );
-        System.out.println("[*] PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+        System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
         scanner.nextLine();
     }
 
     public void getAllAirlines() {
         List<Airline> allAirlines = airlineGetAllService.getAllAirlines();
         if (allAirlines.isEmpty()) {
-            System.out.println("[!] NO HAY AEROLINEAS REGISTRADAS");
+            System.out.println("NO HAY AEROLINEAS REGISTRADAS");
         } else {
-            System.out.println("[*] AEROLINEAS REGISTRADAS");
-            allAirlines.forEach(a -> System.out.println("[*] ID: " + a.getId() + " NOMBRE: " + a.getName()));
+            System.out.println("AEROLINEAS REGISTRADAS");
+            allAirlines.forEach(a -> System.out.println("ID: " + a.getId() + " NOMBRE: " + a.getName()));
         }
-        System.out.println("[*] PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+        System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
         scanner.nextLine();
     }
 }

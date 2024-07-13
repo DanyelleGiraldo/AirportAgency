@@ -10,7 +10,7 @@ public class AirportUpdateService {
         this.airportrepository = airportrepository;
     }
 
-    public void updateAirline(Airport airport){
+    public void updateAirport(Airport airport){
         airportrepository.update(airport);
     }
 }

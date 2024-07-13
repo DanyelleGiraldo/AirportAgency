@@ -10,7 +10,7 @@ public class AirportCreateService {
         this.airportrepository = airportrepository;
     }
 
-    public void CreateAirport(Airport airport){
+    public void createAirport(Airport airport){
         airportrepository.save(airport);
     }
 
