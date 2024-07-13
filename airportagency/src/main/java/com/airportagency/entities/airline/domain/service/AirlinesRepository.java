@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.airportagency.entities.airline.domain.entity.Airline;
 
-public interface AirlineService {
+public interface AirlinesRepository {
     void save(Airline airline);
     void update(Airline airline);
     Optional<Airline> findById(String id);

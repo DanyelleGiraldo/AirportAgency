@@ -1,4 +1,4 @@
-package com.airportagency.infrastructure.config;
+package com.airportagency.config.config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
