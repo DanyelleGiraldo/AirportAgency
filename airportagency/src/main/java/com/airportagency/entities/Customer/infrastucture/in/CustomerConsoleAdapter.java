@@ -16,7 +16,7 @@ public class CustomerConsoleAdapter {
     private final CustomerDeleteService customerDeleteService;
     private final CustomerSearchService customerSearchService;
     private final CustomerGetAllService customerGetAllService;
-    
+
     public CustomerConsoleAdapter(CustomerCreateService customerCreateService,
             CustomerUpdateService customerUpdateService, CustomerDeleteService customerDeleteService,
             CustomerSearchService customerSearchService, CustomerGetAllService customerGetAllService) {
@@ -27,5 +27,11 @@ public class CustomerConsoleAdapter {
         this.customerGetAllService = customerGetAllService;
     }
 
-    
+    public void CreateCustomer(){
+        String rta = "S";
+
+        white(rta.equalsIgnoreCase("S")){
+            System.out.println();
+        }
+    }
 }
