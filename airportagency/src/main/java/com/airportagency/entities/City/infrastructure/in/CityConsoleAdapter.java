@@ -35,7 +35,7 @@ public class CityConsoleAdapter {
         String rta = "S";
 
         while (rta.equalsIgnoreCase("S")) {
-            System.out.println(" REGISTRAR CIUDAD ");
+            System.out.println("REGISTRAR CIUDAD ");
             System.out.println("INGRESE EL ID DE LA CIUDAD A CREAR: ");
             String id = sc.nextLine();
             Optional<City> city = citySearchService.getCityById(id);
@@ -92,10 +92,10 @@ public class CityConsoleAdapter {
         List<City> cities = cityGetAllService.getAllCities();
 
         if (cities.isEmpty()) {
-            System.out.println("[!] NO HAY NINGUN CLIENTE REGISTRADO");
+            System.out.println("NO HAY NINGUN CLIENTE REGISTRADO");
             sc.nextLine();
         } else {
-            System.out.println("[?] INGRESE EL ID DEL CLIENTE A BUSCAR: ");
+            System.out.println("INGRESE EL ID DEL CLIENTE A BUSCAR: ");
             String findId = sc.nextLine();
 
             Optional<City> city = citySearchService.getCityById(findId);
@@ -131,24 +131,24 @@ public class CityConsoleAdapter {
         List<City> cities = cityGetAllService.getAllCities();
         
         if (cities.isEmpty()) {
-            System.out.println("[!] NO HAY NINGUN CIUDAD REGISTRADO");
+            System.out.println("NO HAY NINGUN CIUDAD REGISTRADO");
             sc.nextLine();
         } else {
-            System.out.println("[?] INGRESE EL ID DEL CIUDAD A ELIMINAR: ");
+            System.out.println("INGRESE EL ID DEL CIUDAD A ELIMINAR: ");
             String findId = sc.nextLine();
 
             Optional<City> city = citySearchService.getCityById(findId);
             city.ifPresentOrElse(
                 c -> {
                     cityDeleteService.deleteCity(findId);
-                    System.out.println("[!] CIUDAD ELIMINADO CORRECTAMENTE.");
+                    System.out.println("CIUDAD ELIMINADO CORRECTAMENTE.");
                     sc.nextLine();
                 },
                 () -> {
-                    System.out.println("[!]  CIUDAD NO ENCONTRADO");
+                    System.out.println("CIUDAD NO ENCONTRADO");
                 }
             );
-            System.out.println("[*]  PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+            System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
             sc.nextLine();
         }
     }
@@ -157,13 +157,13 @@ public class CityConsoleAdapter {
         List<City> cities = cityGetAllService.getAllCities();
         
         if (cities.isEmpty()) {
-            System.out.println("[!] NO HAY NINGUNA CIUDAD REGISTRADO");
+            System.out.println("NO HAY NINGUNA CIUDAD REGISTRADO");
             sc.nextLine();
         } else {
             cityGetAllService.getAllCities().forEach(c -> {
-               System.out.println(MessageFormat.format("[*] ID : {0}\n [*] CIUDAD : {1}\n[*] PAIS : {2}", c.getId(), c.getCityName(), c.getCountryCity())); 
+               System.out.println(MessageFormat.format("ID : {0}\n CIUDAD : {1}\n PAIS : {2}", c.getId(), c.getCityName(), c.getCountryCity())); 
             });
-            System.out.println("[*]  PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+            System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
             sc.nextLine();
         }
     }
