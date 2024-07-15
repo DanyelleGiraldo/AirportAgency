@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.airportagency.config.config.DatabaseConfig;
 import com.airportagency.entities.user.domain.entity.User;
 import com.airportagency.entities.user.domain.service.UserService;
-import com.airportagency.config.config.DatabaseConfig;
 
 public class UserRepository implements UserService {
 
@@ -155,7 +155,7 @@ public class UserRepository implements UserService {
 
     String sql = "SELECT r.name " +
                  "FROM user u " +
-                 "JOIN role r ON u.rol_id = r.id " +
+                 "JOIN rol r ON u.rol_id = r.id " +
                  "WHERE u.name = ?";
 
     try (Connection connection = DatabaseConfig.getConnection();
