@@ -44,7 +44,7 @@ public class CountryConsoleAdapter {
                     System.out.println(MessageFormat.format("EL ID (0) YA ESTA OCUPADO.", c.getId()));
                 },
                 () -> {
-                    System.out.println("REGISTRAR PAIS ***************");
+                    System.out.println("REGISTRAR PAIS");
             
                     System.out.println("INGRESE EL NOMBRE DEL PAIS: ");
                     String countryName = sc.nextLine();
@@ -143,7 +143,7 @@ public class CountryConsoleAdapter {
                     System.out.println("PAIS NO ENCONTRADO");
                 }
             );
-            System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+            System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR");
             sc.nextLine();
         }
     }
