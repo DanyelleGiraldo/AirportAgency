@@ -1,12 +1,12 @@
 package com.airportagency.entities.employee.domain.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Employee {
     private String id;
     private String name;
     private String lastName;
-    private Date ingressDate;
+    private LocalDate ingressDate;
     private String idRole;
     private String idAirline;
     private String idAirport;
@@ -14,7 +14,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String id, String name, String lastName, Date ingressDate, String idRole, String idAirline,
+    public Employee(String id, String name, String lastName, LocalDate ingressDate, String idRole, String idAirline,
             String idAirport) {
         this.id = id;
         this.name = name;
@@ -49,11 +49,11 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public Date getIngressDate() {
+    public LocalDate getIngressDate() {
         return ingressDate;
     }
 
-    public void setIngressDate(Date ingressDate) {
+    public void setIngressDate(LocalDate ingressDate) {
         this.ingressDate = ingressDate;
     }
 
