@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,6 +97,26 @@ public class CustomerRepositorySQL implements CustomerRepository{
 
     @Override
     public List<Customer> findAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<Customer> customers = new ArrayList<>();
+        try(Connection connection = DatabaseConfig.getConnection()){
+            String query = "SELECT id,name,lastName,age,documentNumber,idDocumentType FROM customer";
+            try (PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()){
+                    while(resultSet.next()){
+                        Customer customer = new Customer(
+                        resultSet.getString("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("lastName"),
+                        resultSet.getInt("age"),
+                        resultSet.getInt("documentNumber"),
+                        resultSet.getInt("idDocumentType") 
+                        );
+                        customers.add(customer);
+                    }
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return customers;
     }
 }
