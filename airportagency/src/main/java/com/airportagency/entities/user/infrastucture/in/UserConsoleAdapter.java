@@ -8,6 +8,7 @@ import com.airportagency.entities.user.aplication.DelateUserUseCase;
 import com.airportagency.entities.user.aplication.FindUserUseCase;
 import com.airportagency.entities.user.aplication.ReadUserUseCase;
 import com.airportagency.entities.user.aplication.UpdateUserUseCase;
+import com.airportagency.entities.user.aplication.UserUseCase;
 import com.airportagency.entities.user.domain.entity.User;
 
 public class UserConsoleAdapter {
@@ -77,36 +78,16 @@ public class UserConsoleAdapter {
             if (user != null) {
                 System.out.println("Usuario encontrado:");
                 System.out.println("ID: " + user.getId_usuario());
-                System.out.println("Nombre: " + user.getNombre_usuario());
-
-                System.out.println("¿Qué deseas modificar del usuario?");
-                System.out.println("1. Nombre");
-                int choice = scanner.nextInt();
-                scanner.nextLine(); 
-
-                switch (choice) {
-                    case 1:
-                        System.out.println("Ingresa el nuevo nombre:");
-                        String newName = scanner.nextLine();
-                        User updatedUser = updateUserUseCase.execute(id, newName, newName);
-                        if (updatedUser != null) {
-                            System.out.println("Nombre actualizado a: " + updatedUser.getNombre_usuario());
-                        } else {
-                            System.out.println("Error al actualizar el nombre.");
-                        }
-                        break; 
-                    default:
-                        System.out.println("Opción no válida.");
-                        break;
-                }
-            } else {
-                System.out.println("No se encontró ningún usuario con el ID: " + id);
-            }
-        } catch (Exception e) {
-            System.err.println("Error al actualizar el usuario: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+                System.out.println("Nombre: " + user.getNombre_usuario()); 
+                System.out.println("Ingresa el nuevo nombre:");
+                String newName = scanner.nextLine();
+                System.out.println("Ingresa la nueva contraseña :");
+                String newPassword = scanner.nextLine();
+                System.out.println("Ingrese el nuevo rol: ");
+                int newRol = scanner.nextInt();
+                scanner.nextLine();
+                User updatedUser = updateUserUseCase.execute(id, newName, newPassword, newRol);
+                
 
     public void deleteById() {
         try (Scanner scanner = new Scanner(System.in)) {

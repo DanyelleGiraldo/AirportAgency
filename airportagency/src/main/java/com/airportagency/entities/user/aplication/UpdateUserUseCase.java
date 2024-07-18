@@ -1,5 +1,7 @@
 package com.airportagency.entities.user.aplication;
 
+import java.sql.SQLException;
+
 import com.airportagency.entities.user.domain.entity.User;
 import com.airportagency.entities.user.domain.service.UserService;
 
@@ -11,7 +13,7 @@ public class UpdateUserUseCase {
         this.userService = userService;
     }
 
-    public User execute(Long id, String newName, String newEmail) {
-        return userService.updateById(id, newName, newEmail);
+    public User execute(Long id, String newName, String newPassword, int newRol) throws SQLException {
+        return userService.updateById(id, newName, newPassword, newRol);
     }
 }

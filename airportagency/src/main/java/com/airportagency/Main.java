@@ -2,7 +2,7 @@ package com.airportagency;
 
 import java.util.Scanner;
 
-import com.airportagency.entities.auth.infrastructure.in.LogInView;
+import com.airportagency.entities.user.infrastucture.in.LogInView;
 
 public class Main {
     public static void main(String[] args) {

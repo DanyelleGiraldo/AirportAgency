@@ -1,5 +1,7 @@
 package com.airportagency.entities.user.aplication;
 
+import java.sql.SQLException;
+
 import com.airportagency.entities.user.domain.entity.User;
 import com.airportagency.entities.user.domain.service.UserService;
 
@@ -10,9 +12,9 @@ public class ReadUserUseCase {
     public ReadUserUseCase(UserService userService) {
         this.userService = userService;
     }
-    public User execute(String name){
+    public User execute(String name) throws SQLException{
 
-         return userService.listUserbyName(name);
+         return userService.listUserName(name);
     }
 
 

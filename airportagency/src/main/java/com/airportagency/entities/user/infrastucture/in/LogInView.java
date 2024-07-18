@@ -1,4 +1,4 @@
-package com.airportagency.entities.auth.infrastructure.in;
+package com.airportagency.entities.user.infrastucture.in;
 
 import java.util.Scanner;
 

@@ -99,7 +99,7 @@ public class UserRepository implements UserService {
     }
 
     @Override
-    public User listUserbyName(String name) {
+    public User listUserName(String name) {
         String sql = "SELECT id, name, email FROM user WHERE name LIKE ?";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {

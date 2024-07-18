@@ -1,4 +1,4 @@
-package com.airportagency.entities.auth.infrastructure.in;
+package com.airportagency.entities.user.infrastucture.in;
 
 import com.airportagency.entities.user.domain.service.UserService;
 
@@ -26,7 +26,7 @@ public class LogInController {
             UserRepository userRep = new UserRepository();
             userRole = userRep.getUserRole(username);
             switch (userRole) {
-                case "Super Admin":
+                case "admin":
                     System.out.println("Super Admin");
                     break;
                 case "Administrator":
