@@ -15,16 +15,13 @@ public class LogInController {
         this.userService = userR;
     }
 
-    public boolean login(String username, String password) throws SQLException {
+    public boolean login(String name, String password) throws SQLException {
         final String userRole;
-        User user = new User();
-        user.setNombre_usuario(username);
-        user.setPassword(password);
         
 
-        if (userService.authUser(user)) {
+        if (userService.authUser(name, password)) {
             UserRepository userRep = new UserRepository();
-            userRole = userRep.getUserRole(username);
+            userRole = userRep.getUserRole(name);
             switch (userRole) {
                 case "admin":
                     System.out.println("Super Admin");

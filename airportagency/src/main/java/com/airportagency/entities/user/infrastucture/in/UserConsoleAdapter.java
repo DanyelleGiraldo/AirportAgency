@@ -1,12 +1,15 @@
 package com.airportagency.entities.user.infrastucture.in;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.airportagency.entities.BookingStatus.domain.entity.BookingStatus;
 import com.airportagency.entities.user.aplication.CreateUserUseCase;
 import com.airportagency.entities.user.aplication.DelateUserUseCase;
 import com.airportagency.entities.user.aplication.FindUserUseCase;
-import com.airportagency.entities.user.aplication.ReadUserUseCase;
+import com.airportagency.entities.user.aplication.ReadUsersUseCase;
 import com.airportagency.entities.user.aplication.UpdateUserUseCase;
 import com.airportagency.entities.user.aplication.UserUseCase;
 import com.airportagency.entities.user.domain.entity.User;
@@ -16,15 +19,15 @@ public class UserConsoleAdapter {
     private FindUserUseCase findUserUseCase;
     private UpdateUserUseCase updateUserUseCase;
     private DelateUserUseCase delateUserUseCase;
-    private ReadUserUseCase readUserUseCase;
+    private ReadUsersUseCase readUserUseCase;
 
     public UserConsoleAdapter(CreateUserUseCase createUserUseCase, FindUserUseCase findUserUseCase,
-            UpdateUserUseCase updateUserUseCase, DelateUserUseCase delateUserUseCase, ReadUserUseCase readUserUseCase) {
+            UpdateUserUseCase updateUserUseCase, DelateUserUseCase delateUserUseCase, ReadUsersUseCase readUsersUseCase) {
         this.createUserUseCase = createUserUseCase;
         this.findUserUseCase = findUserUseCase;
         this.updateUserUseCase = updateUserUseCase;
         this.delateUserUseCase = delateUserUseCase;
-        this.readUserUseCase = readUserUseCase;
+        this.readUserUseCase = readUsersUseCase;
     }
 
     public void start() {
@@ -68,7 +71,10 @@ public class UserConsoleAdapter {
         }
     }
 
-    public void updateById() {
+    public void updateById() throws SQLException {
+
+        List<User> users = readUserUseCase.readAllUser();
+
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Ingrese el ID del usuario a actualizar:");
             Long id = scanner.nextLong();
@@ -87,8 +93,12 @@ public class UserConsoleAdapter {
                 int newRol = scanner.nextInt();
                 scanner.nextLine();
                 User updatedUser = updateUserUseCase.execute(id, newName, newPassword, newRol);
-                
 
+            }
+        }
+    }
+
+    
     public void deleteById() {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Ingrese el ID del usuario a eliminar:");
@@ -133,29 +143,4 @@ public class UserConsoleAdapter {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public void listUserbyName() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Ingrese el nombre del usuario a buscar:");
-            String nombre = scanner.nextLine();
-
-          
-            List<User> userList = (List<User>) readUserUseCase.execute(nombre);
-
-            if (!userList.isEmpty()) {
-                System.out.println("Usuarios encontrados con el nombre '" + nombre + "':");
-                for (User user : userList) {
-                    System.out.println("ID: " + user.getId_usuario());
-                    System.out.println("Nombre: " + user.getNombre_usuario());
-                    System.out.println("---------------------------");
-                }
-            } else {
-                System.out.println("No se encontraron usuarios con el nombre '" + nombre + "'.");
-            }
-
-        } catch (Exception e) {
-            System.err.println("Error al buscar usuarios por nombre: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 }
