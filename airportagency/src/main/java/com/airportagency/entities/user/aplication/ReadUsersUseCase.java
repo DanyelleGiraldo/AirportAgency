@@ -13,14 +13,9 @@ public class ReadUsersUseCase {
     public ReadUsersUseCase(UserService userService) {
         this.userService = userService;
     }
-    public User execute() throws SQLException{
+    public List<User> execute() throws SQLException{
+        return userService.readAllUser();
 
-         return (User) userService.readAllUser();
     }
-    public List<User> readAllUser() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'readAllUser'");
-    }
-
 
 }

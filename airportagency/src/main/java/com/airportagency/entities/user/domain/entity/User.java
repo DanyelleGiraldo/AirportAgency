@@ -1,7 +1,5 @@
 package com.airportagency.entities.user.domain.entity;
 
-import java.util.List;
-
 public class User {
     private long id_usuario;
     private String nombre_usuario;

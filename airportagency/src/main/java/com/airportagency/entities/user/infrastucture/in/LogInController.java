@@ -5,7 +5,6 @@ import com.airportagency.entities.user.domain.service.UserService;
 import java.sql.SQLException;
 
 import com.airportagency.entities.user.infrastucture.out.UserRepository;
-import com.airportagency.entities.user.domain.entity.User;
 
 public class LogInController {
 
@@ -24,15 +23,15 @@ public class LogInController {
             userRole = userRep.getUserRole(name);
             switch (userRole) {
                 case "admin":
-                    System.out.println("Super Admin");
-                    break;
-                case "Administrator":
                     System.out.println("Admin");
                     break;
-                case "Maintenance Technician":
+                case "tecnico":
                     System.out.println("Tecnico");
                     break;
-                case "Sales Agent":
+                case "customer":
+                    System.out.println("cliente");
+                    break;
+                case "sells":
                     System.out.println("Ventas");
                     break;
                 default:

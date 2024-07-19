@@ -1,8 +1,6 @@
 package com.airportagency.entities.user.aplication;
 
-import java.util.List;
-
-import com.airportagency.entities.user.domain.entity.User;
+import java.sql.SQLException;
 import com.airportagency.entities.user.domain.service.UserService;
 
 public class UserUseCase {
@@ -12,7 +10,7 @@ public class UserUseCase {
         this.userService = userService;
     }
     
-    public List<String> getPermisosCase(int id_rolUsuario){
-        return userService.getPermisos(id_rolUsuario);
+    public String execute(String name) throws SQLException{
+        return userService.getUserRole(name);
     }
 }

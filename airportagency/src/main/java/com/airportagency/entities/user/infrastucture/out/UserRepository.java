@@ -14,6 +14,8 @@ import com.airportagency.entities.user.domain.service.UserService;
 
 public class UserRepository implements UserService {
 
+    public static final String UserUseCase = null;
+
     @Override
     public void createUser(User user) {
         String sql = "INSERT INTO user(name, password1) VALUES (?, ?)";
@@ -105,16 +107,16 @@ public class UserRepository implements UserService {
 
     @Override
     public boolean authUser(String name, String password) throws SQLException {
-        User user = new User();
         String sql = "SELECT password FROM user WHERE name = ?";
         try (Connection connection = DatabaseConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)) {
+            
+            statement.setString(1, name);
+                
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     String storedPassword = rs.getString("password");
-                    String providedPassword = user.getPassword();
-
-                    return storedPassword.equals(providedPassword);
+                    return storedPassword.equals(password);
                 } else {
                     return false;
                 }
@@ -129,7 +131,7 @@ public class UserRepository implements UserService {
     }
 
     @Override
-    public String getUserRole(String username) throws SQLException {
+    public String getUserRole(String name) throws SQLException {
     String roleName = null;
 
     String sql = "SELECT r.name " +
@@ -139,20 +141,21 @@ public class UserRepository implements UserService {
 
     try (Connection connection = DatabaseConfig.getConnection();
          PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setString(1, username);
+        ps.setString(1, name);
 
         try (ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 roleName = rs.getString("name");
             }
         }
-    } catch (SQLException e) {
+
+    }catch (SQLException e) {
         e.printStackTrace();
         throw new SQLException("Error al obtener el rol del usuario", e);
     }
 
     return roleName;
-}
+    }
 
     @Override
     public List<User> readAllUser() {
