@@ -13,7 +13,7 @@ import com.airportagency.config.config.DatabaseConfig;
 import com.airportagency.entities.FlightFares.domain.entity.FlightFares;
 import com.airportagency.entities.FlightFares.domain.service.FlightFaresRepository;
 
-public class FlightFareMySQLRepository implements FlightFaresRepository {
+public class FlightFareSQLRepository implements FlightFaresRepository {
     
     @Override
     public void save(FlightFares flightfare){
