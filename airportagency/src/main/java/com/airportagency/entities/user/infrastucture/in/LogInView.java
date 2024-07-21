@@ -15,30 +15,26 @@ public class LogInView {
     }
 
     public void start() {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("---------------------\n" +
+        try(Scanner scanner = new Scanner(System.in)){
+            System.out.println("---------------------\n" +
         "       Sign in       \n" +
         "---------------------\n");
 
         System.out.print("\nEnter your username: ");
-        String username = sc.nextLine().trim();
+        String username = scanner.nextLine().trim();
+        
         System.out.print("\nEnter your password: ");
-        String password = sc.nextLine().trim();
-        System.out.println();
+        String password = scanner.nextLine().trim();
 
         try {
-            boolean success = controller.login(username, password);
-            if (success) {
-                System.out.println("Login successful!");
-            } else {
-                System.out.println("Incorrect username or password.");
-            }
+            controller.login(username, password);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("An error occurred during login: " + e.getMessage());
-        } finally {
-            sc.close();
         }
+
+        }
+
+        
     }
 }

@@ -24,15 +24,23 @@ public class LogInController {
             switch (userRole) {
                 case "admin":
                     System.out.println("Admin");
+                    AdminView adminView = new AdminView();
+                    adminView.start();
                     break;
-                case "tecnico":
+                case "technical":
                     System.out.println("Tecnico");
+                    TechnicalView technicalView = new TechnicalView();
+                    technicalView.start();
                     break;
                 case "customer":
-                    System.out.println("cliente");
+                    System.out.println("Cliente");
+                    CustomerView customerView = new CustomerView();
+                    customerView.start();
                     break;
                 case "sells":
                     System.out.println("Ventas");
+                    SellsView sellsView = new SellsView();
+                    sellsView.start();
                     break;
                 default:
                     throw new IllegalStateException("Unexpected role: " + userRole);
