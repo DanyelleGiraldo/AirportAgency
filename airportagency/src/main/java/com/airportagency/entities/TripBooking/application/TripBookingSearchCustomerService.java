@@ -1,5 +1,5 @@
 package com.airportagency.entities.TripBooking.application;
 
-public class TripBookingSearchClientService {
+public class TripBookingSearchCustomerService {
 
 }
