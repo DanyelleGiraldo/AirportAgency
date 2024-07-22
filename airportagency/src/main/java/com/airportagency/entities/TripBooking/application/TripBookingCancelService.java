@@ -1,4 +1,4 @@
-package com.airportagency.entities.TripBooking;
+package com.airportagency.entities.TripBooking.application;
 
 import com.airportagency.entities.TripBooking.domain.service.TripBookingRepository;
 
