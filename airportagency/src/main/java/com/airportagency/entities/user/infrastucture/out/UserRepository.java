@@ -4,12 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import com.airportagency.config.config.DatabaseConfig;
 import com.airportagency.entities.user.domain.entity.User;
 import com.airportagency.entities.user.domain.service.UserService;
 
 public class UserRepository implements UserService {
+
+    public static final String UserUseCase = null;
 
     @Override
     public void createUser(User user) {
@@ -56,13 +61,14 @@ public class UserRepository implements UserService {
     }
 
     @Override
-    public User updateById(Long id, String newName, String newPassword) {
-        String sql = "UPDATE user SET name = ?, email = ? WHERE id = ?";
+    public User updateById(Long id, String newName, String newPassword, int rol_id) {
+        String sql = "UPDATE user SET name = ?, password = ?, rol_id = ? WHERE id = ?";
         try (Connection connection = DatabaseConfig.getConnection();PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, newName);
             statement.setString(2, newPassword);
-            statement.setLong(3, id);
+            statement.setInt(3, rol_id);
+            statement.setLong(4, id);
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
@@ -98,44 +104,19 @@ public class UserRepository implements UserService {
         return null;
     }
 
-    @Override
-    public User listUserName(String name) {
-        String sql = "SELECT id, name, email FROM user WHERE name LIKE ?";
-        try (Connection connection = DatabaseConfig.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            
-            statement.setString(1, "%" + name + "%"); 
-            
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    User user = new User();
-                    user.setId_usuario(resultSet.getLong("id"));
-                    user.setNombre_usuario(resultSet.getString("name"));
-                    user.setPassword(resultSet.getString("password"));
-                    return user; 
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al buscar usuario por nombre: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
-        return null; 
-    }
 
     @Override
-    public boolean authUser(User user) throws SQLException {
-        String sql = "SELECT * FROM user WHERE name = ?";
+    public boolean authUser(String name, String password) throws SQLException {
+        String sql = "SELECT password FROM user WHERE name = ?";
         try (Connection connection = DatabaseConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, user.getNombre_usuario());
             
+            statement.setString(1, name);
+                
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     String storedPassword = rs.getString("password");
-                    String providedPassword = user.getPassword();
-
-                    return storedPassword.equals(providedPassword);
+                    return storedPassword.equals(password);
                 } else {
                     return false;
                 }
@@ -150,7 +131,7 @@ public class UserRepository implements UserService {
     }
 
     @Override
-    public String getUserRole(String username) throws SQLException {
+    public String getUserRole(String name) throws SQLException {
     String roleName = null;
 
     String sql = "SELECT r.name " +
@@ -160,19 +141,44 @@ public class UserRepository implements UserService {
 
     try (Connection connection = DatabaseConfig.getConnection();
          PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setString(1, username);
+        ps.setString(1, name);
 
         try (ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 roleName = rs.getString("name");
             }
         }
-    } catch (SQLException e) {
+
+    }catch (SQLException e) {
         e.printStackTrace();
         throw new SQLException("Error al obtener el rol del usuario", e);
     }
 
     return roleName;
-}
+    }
+
+    @Override
+    public List<User> readAllUser() {
+        List<User> users = new ArrayList<>();
+        try(Connection connection = DatabaseConfig.getConnection()){
+            String sql = "SELECT * FROM user";
+            try (PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()){
+                    while(resultSet.next()){
+                        User user = new User(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("password"),
+                        resultSet.getInt("rol_id")
+                        );
+                        users.add(user);
+                    }
+                    
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return users;
+    }
 
 }

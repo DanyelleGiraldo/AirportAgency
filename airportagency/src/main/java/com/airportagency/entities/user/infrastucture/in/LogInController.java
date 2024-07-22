@@ -5,7 +5,6 @@ import com.airportagency.entities.user.domain.service.UserService;
 import java.sql.SQLException;
 
 import com.airportagency.entities.user.infrastucture.out.UserRepository;
-import com.airportagency.entities.user.domain.entity.User;
 
 public class LogInController {
 
@@ -15,28 +14,33 @@ public class LogInController {
         this.userService = userR;
     }
 
-    public boolean login(String username, String password) throws SQLException {
+    public boolean login(String name, String password) throws SQLException {
         final String userRole;
-        User user = new User();
-        user.setNombre_usuario(username);
-        user.setPassword(password);
         
 
-        if (userService.authUser(user)) {
+        if (userService.authUser(name, password)) {
             UserRepository userRep = new UserRepository();
-            userRole = userRep.getUserRole(username);
+            userRole = userRep.getUserRole(name);
             switch (userRole) {
                 case "admin":
-                    System.out.println("Super Admin");
-                    break;
-                case "Administrator":
                     System.out.println("Admin");
+                    AdminView adminView = new AdminView();
+                    adminView.start();
                     break;
-                case "Maintenance Technician":
+                case "technical":
                     System.out.println("Tecnico");
+                    TechnicalView technicalView = new TechnicalView();
+                    technicalView.start();
                     break;
-                case "Sales Agent":
+                case "customer":
+                    System.out.println("Cliente");
+                    CustomerView customerView = new CustomerView();
+                    customerView.start();
+                    break;
+                case "sells":
                     System.out.println("Ventas");
+                    SellsView sellsView = new SellsView();
+                    sellsView.start();
                     break;
                 default:
                     throw new IllegalStateException("Unexpected role: " + userRole);
