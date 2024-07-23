@@ -3,16 +3,14 @@ package com.airportagency.entities.Payment.application;
 import com.airportagency.entities.Payment.domain.Service.PaymentRepository;
 import com.airportagency.entities.Payment.domain.entity.Payment;
 
-
-public class PaymentCreateService {
+public class PaymentUpdateService {
     private final PaymentRepository paymentRepository;
 
-    public PaymentCreateService(PaymentRepository paymentRepository) {
+    public PaymentUpdateService(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
     }
-    
-    public void createPayment(Payment payment)   {
-        paymentRepository.save(payment);
+
+    public void updatePayment(Payment payment){
+        paymentRepository.update(payment);
     }
-    
 }
