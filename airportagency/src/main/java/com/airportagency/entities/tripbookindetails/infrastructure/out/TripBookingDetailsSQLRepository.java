@@ -12,7 +12,7 @@ import com.airportagency.config.config.DatabaseConfig;
 import com.airportagency.entities.tripbookindetails.domain.entity.TripBookingDetails;
 import com.airportagency.entities.tripbookindetails.domain.service.TripBookingDetailsRepository;
 
-public class TripBookingSQLRepository  implements TripBookingDetailsRepository{
+public class TripBookingDetailsSQLRepository  implements TripBookingDetailsRepository{
         @Override
         public void save(TripBookingDetails tripBookingDetails){
         try (Connection connection = DatabaseConfig.getConnection()) {
