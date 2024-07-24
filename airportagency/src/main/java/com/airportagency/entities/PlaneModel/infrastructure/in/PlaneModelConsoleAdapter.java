@@ -4,30 +4,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.airportagency.entities.PlaneModel.application.PlaneModelCreateService;
-import com.airportagency.entities.PlaneModel.application.PlaneModelDeleteService;
-import com.airportagency.entities.PlaneModel.application.PlaneModelGetAllService;
-import com.airportagency.entities.PlaneModel.application.PlaneModelSearchService;
-import com.airportagency.entities.PlaneModel.application.PlaneModelUpdateService;
+
+import com.airportagency.entities.PlaneModel.application.PlaneModelService;
 import com.airportagency.entities.PlaneModel.domain.entity.PlaneModels;
 public class PlaneModelConsoleAdapter {
 
     Scanner sc = new Scanner(System.in);
 
-    private final PlaneModelCreateService planeModelCreateService;
-    private final PlaneModelDeleteService planeModelDeleteService;
-    private final PlaneModelSearchService planeModelSearchService;
-    private final PlaneModelGetAllService planeModelGetAllService;
-    private final PlaneModelUpdateService planeModelUpdateService;
+    private final PlaneModelService planeModelService;
 
-    public PlaneModelConsoleAdapter(PlaneModelCreateService planeModelCreateService,
-            PlaneModelDeleteService planeModelDeleteService, PlaneModelSearchService planeModelSearchService,
-            PlaneModelGetAllService planeModelGetAllService, PlaneModelUpdateService planeModelUpdateService) {
-        this.planeModelCreateService = planeModelCreateService;
-        this.planeModelDeleteService = planeModelDeleteService;
-        this.planeModelSearchService = planeModelSearchService;
-        this.planeModelGetAllService = planeModelGetAllService;
-        this.planeModelUpdateService = planeModelUpdateService;
+    
+
+    public PlaneModelConsoleAdapter(PlaneModelService planeModelService) {
+        this.planeModelService = planeModelService;
     }
 
     public void createModels(){
@@ -37,7 +26,7 @@ public class PlaneModelConsoleAdapter {
             System.out.println("INGRESE EL ID DEL MODELO");
             String newId = sc.nextLine();
 
-            Optional<PlaneModels> models = planeModelSearchService.getPlaneModelById(newId);
+            Optional<PlaneModels> models = planeModelService.findById(newId);
             models.ifPresentOrElse(
                 g ->  {
                     System.out.println("EL MODELO YA EXISTENTE");
@@ -53,7 +42,7 @@ public class PlaneModelConsoleAdapter {
                     String newIdManufacturer = sc.nextLine();
                       
                     PlaneModels planes = new PlaneModels(newId, newModel, newIdManufacturer);
-                    planeModelCreateService.createPlaneModel(planes);
+                    planeModelService.createPlaneModels(planes);
                 }
             );
             System.out.println("DESEA REGISTRAR OTRO MODELO? [S] SI | [CUALQUIER TECLA] NO");
@@ -62,7 +51,7 @@ public class PlaneModelConsoleAdapter {
     }
 
     public void searchModels(){
-        List<PlaneModels> modelList = planeModelGetAllService.getAllPlaneModels();
+        List<PlaneModels> modelList = planeModelService.findAll();
 
         if(modelList.isEmpty()){
             System.out.println("NO HAY MODELOS REGISTRADOS");
@@ -70,7 +59,7 @@ public class PlaneModelConsoleAdapter {
             System.out.println("INGRESE EL ID DEL MODELO\n\n");
             String findId = sc.nextLine();
 
-            Optional<PlaneModels> planeModels = planeModelSearchService.getPlaneModelById(findId);
+            Optional<PlaneModels> planeModels = planeModelService.findById(findId);
             planeModels.ifPresentOrElse(
                 f -> System.out.println("ID: "+ f.getId() + "\n MODELO: " + f.getModel() + "\n ID DEL FABRICANTE: " + f.getIdManufacturer()),
                 () -> System.out.println("MODELO NO ENCONTRADO")
@@ -81,7 +70,7 @@ public class PlaneModelConsoleAdapter {
     }
 
     public void updateModels(){
-        List<PlaneModels> modelList = planeModelGetAllService.getAllPlaneModels();
+        List<PlaneModels> modelList = planeModelService.findAll();
 
         if(modelList.isEmpty()){
 
@@ -92,7 +81,7 @@ public class PlaneModelConsoleAdapter {
             System.out.println("INGRESE EL ID DEL MODELO A EDITAR\n\n");
             String findId = sc.nextLine();
 
-            Optional<PlaneModels> model = planeModelSearchService.getPlaneModelById(findId);
+            Optional<PlaneModels> model = planeModelService.findById(findId);
             model.ifPresentOrElse(
             f -> {
                 System.out.println(" ID: "+ f.getId() + "\n MODELO: " + f.getModel() + "\n ID DEL FABRICANTE: " + f.getIdManufacturer());
@@ -106,7 +95,7 @@ public class PlaneModelConsoleAdapter {
                 String updateIdManufacturer = sc.nextLine();
 
                 PlaneModels updatePlaneModels = new PlaneModels (updateModel, updateIdManufacturer,updateId);
-                planeModelUpdateService.updatePlaneModel(updatePlaneModels);
+                planeModelService.updatePlaneModels(updatePlaneModels);
             },
             () -> System.out.println("MODELO NO ENCONTRADO")
         );
@@ -116,16 +105,16 @@ public class PlaneModelConsoleAdapter {
     }
 
     public void deletePlaneModels(){
-        List<PlaneModels> models = planeModelGetAllService.getAllPlaneModels();
+        List<PlaneModels> models = planeModelService.findAll();
         if(models.isEmpty()){
             System.out.println("NO HAY MODELOS REGISTRADOS");
         }   else {
             System.out.println("INGRESE EL ID DEL MODELO A ELIMINAR\n\n");
             String findId = sc.nextLine();
 
-            Optional<PlaneModels> planeModels = planeModelSearchService.getPlaneModelById(findId);
+            Optional<PlaneModels> planeModels = planeModelService.findById(findId);
             planeModels.ifPresentOrElse(
-                f -> planeModelDeleteService.deletePlaneModel(findId),
+                f -> planeModelService.deletePlaneModels(findId),
                 () -> System.out.println("MODELO NO ENCONTRADO")
             );
         } 
@@ -134,11 +123,11 @@ public class PlaneModelConsoleAdapter {
     }
 
     public void getAllPlaneModels(){
-        List<PlaneModels> planeModels = planeModelGetAllService.getAllPlaneModels();
+        List<PlaneModels> planeModels = planeModelService.findAll();
         if(planeModels.isEmpty()){
             System.out.println("NO HAY MODELOS REGISTRADOS");
         } else {
-            planeModelGetAllService.getAllPlaneModels().forEach(f -> {
+            planeModelService.findAll().forEach(f -> {
                 System.out.println("ID: "+ f.getId() + "\n  MODELO: " + f.getModel() + "\n ID DEL FABRICANTE: " + f.getIdManufacturer());
             });
         }

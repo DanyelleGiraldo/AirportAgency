@@ -5,32 +5,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.airportagency.entities.Status.application.StatusCreateService;
-import com.airportagency.entities.Status.application.StatusDeleteService;
-import com.airportagency.entities.Status.application.StatusGetAllService;
-import com.airportagency.entities.Status.application.StatusSearchService;
-import com.airportagency.entities.Status.application.StatusUpdateService;
+
+import com.airportagency.entities.Status.application.StatusService;
 import com.airportagency.entities.Status.domain.entity.Status;
 
 public class StatusConsoleAdapter {
 
     Scanner sc = new Scanner(System.in);
 
-    private final StatusCreateService statusCreateService;
-    private final StatusUpdateService statusUpdateService;
-    private final StatusDeleteService statusDeleteService;
-    private final StatusGetAllService statusGetAllService;
-    private final StatusSearchService statusSearchService;    
+    private final StatusService statusService;
 
-    public StatusConsoleAdapter(StatusCreateService statusCreateService, StatusUpdateService statusUpdateService,
-            StatusDeleteService statusDeleteService, StatusGetAllService statusGetAllService,
-            StatusSearchService statusSearchService) {
-        this.statusCreateService = statusCreateService;
-        this.statusUpdateService = statusUpdateService;
-        this.statusDeleteService = statusDeleteService;
-        this.statusGetAllService = statusGetAllService;
-        this.statusSearchService = statusSearchService;
+    
+
+    public StatusConsoleAdapter(StatusService statusService) {
+        this.statusService = statusService;
     }
+
+
 
     public void createStatus(){
         String option = "S";
@@ -39,7 +30,7 @@ public class StatusConsoleAdapter {
             System.out.println("REGISTRAR ESTADO");
             System.out.println("INGRESE EL ID DEL ESTADO");
             String idStatus = sc.nextLine();
-            Optional<Status> status = statusSearchService.getStatusById(idStatus);
+            Optional<Status> status = statusService.getStatusById(idStatus);
             status.ifPresentOrElse(
                 s -> {
                     System.out.println(MessageFormat.format("EL ID (0) DE ESTADO YA ESTA OCUPADO.", s.getId()));
@@ -50,7 +41,7 @@ public class StatusConsoleAdapter {
                     String statusName = sc.nextLine();
     
                     Status newStatus = new Status(idStatus, statusName);
-                    statusCreateService.createStatus(newStatus);
+                    statusService.createStatus(newStatus);
                     System.out.println("ESTADO CREADO CORRECTAMENTE");
                 }
             );
@@ -62,7 +53,7 @@ public class StatusConsoleAdapter {
 
 
     public void searchStatus(){
-        List<Status> statuses = statusGetAllService.getAllStatuses();
+        List<Status> statuses = statusService.getAllStatuses();
 
         if (statuses.isEmpty()){
             System.out.println("NO HAY NINGUN ESTADO REGISTRADO");
@@ -73,7 +64,7 @@ public class StatusConsoleAdapter {
             String findId = sc.nextLine();
 
 
-            Optional<Status> status = statusSearchService.getStatusById(findId);
+            Optional<Status> status = statusService.getStatusById(findId);
             status.ifPresentOrElse(
                 s -> {
                     System.out.println("ESTADO");
@@ -92,7 +83,7 @@ public class StatusConsoleAdapter {
 
 
     public void updateStatus() {
-        List<Status> statuses = statusGetAllService.getAllStatuses();
+        List<Status> statuses = statusService.getAllStatuses();
 
         if (statuses.isEmpty()) {
             System.out.println("NO HAY NINGUN ESTADO REGISTRADO");
@@ -101,7 +92,7 @@ public class StatusConsoleAdapter {
             System.out.println("INGRESE EL ID DEL ESTADO A BUSCAR: ");
             String findId = sc.nextLine();
 
-            Optional<Status> status = statusSearchService.getStatusById(findId);
+            Optional<Status> status = statusService.getStatusById(findId);
             status.ifPresentOrElse(
             s -> {
                 System.out.println("ACTUALIZAR ESTADO");
@@ -111,7 +102,7 @@ public class StatusConsoleAdapter {
                 String updateStatus = sc.nextLine();
 
                 Status updatedStatus = new Status(findId, updateStatus);
-                statusUpdateService.updateStatus(updatedStatus);
+                statusService.updateStatus(updatedStatus);
 
                 System.out.println("ESTADO ACTUALIZADO CORRECTAMENTE.");
                 sc.nextLine();
@@ -128,7 +119,7 @@ public class StatusConsoleAdapter {
 
 
     public void deleteStatus(){
-        List<Status> statuses = statusGetAllService.getAllStatuses();
+        List<Status> statuses = statusService.getAllStatuses();
 
         if (statuses.isEmpty()){
             System.out.println("NO HAY NINGUN PAIS REGISTRADO");
@@ -138,10 +129,10 @@ public class StatusConsoleAdapter {
             String findId = sc.nextLine();
 
 
-            Optional<Status> status = statusSearchService.getStatusById(findId);
+            Optional<Status> status = statusService.getStatusById(findId);
             status.ifPresentOrElse(
                 s -> {
-                    statusDeleteService.deleteStatus(findId);
+                    statusService.deleteStatus(findId);
                     System.out.println("ESTADO ELIMINADO CORRECTAMENTE.");
                     sc.nextLine();
                 },
@@ -155,13 +146,13 @@ public class StatusConsoleAdapter {
     }
 
     public void getAllStatuses(){
-        List<Status> statuses = statusGetAllService.getAllStatuses();
+        List<Status> statuses = statusService.getAllStatuses();
 
         if (statuses.isEmpty()) {
             System.out.println("NO HAY NINGUN ESTADO REGISTRADO");
             sc.nextLine();
         } else {
-            statusGetAllService.getAllStatuses().forEach(s -> {
+            statusService.getAllStatuses().forEach(s -> {
                 System.out.println(MessageFormat.format("ID : {0}\n ESTADO : {1}", s.getId(), s.getStatus())); 
             });
             System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
