@@ -215,8 +215,9 @@ public class PlaneConsoleAdapter {
                 }
             );
             System.out.println("DESEA REGISTRAR OTRO AVION? [S] SI | [CUALQUIER TECLA] NO");
-            option = sc.nextLine();   
-        }  
+            option = sc.nextLine(); 
+        }
+          
     }
 
     public void searchPlane(){

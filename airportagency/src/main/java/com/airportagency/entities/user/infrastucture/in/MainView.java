@@ -20,15 +20,13 @@ public class MainView {
                     case 1 -> {
                         LogInView login = new LogInView();
                         login.start();
-                        break;
                     }
                     case 2 -> {
                         System.out.println("Has elegido la opción 2") ;
-                        break;
+                        
                     }
                     case 3 ->{
                         salir = true;
-                        break;
                     } 
                     default -> System.out.println("Opción no válida, por favor elige una opción entre 1 y 4");
                 }

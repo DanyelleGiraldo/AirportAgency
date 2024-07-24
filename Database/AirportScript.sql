@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS document_types (
 
 CREATE TABLE IF NOT EXISTS user(
     id INT PRIMARY KEY,
-    name VARCHAR(40) NOT NULL,
-    rol ENUM("A","C","SP")
+    name VARCHAR(40),
+    
 );
 
 CREATE TABLE IF NOT EXISTS customer (
