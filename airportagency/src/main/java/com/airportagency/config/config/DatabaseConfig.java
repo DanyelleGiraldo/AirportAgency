@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConfig {
-    private static final String URL = "jdbc:mysql://localhost:3306/airport_database";
+    private static final String URL = "jdbc:mysql://root:AaPbgWrzdKmovNJkECuhDGADYkSpUXPF@monorail.proxy.rlwy.net:13750/railway";
     private static final String USER = "root";
     private static final String PASSWORD = "AaPbgWrzdKmovNJkECuhDGADYkSpUXPF";
 
