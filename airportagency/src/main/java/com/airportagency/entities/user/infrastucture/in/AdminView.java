@@ -9,40 +9,39 @@ public class AdminView {
             boolean salir = false;
             
             while (!salir) {
-                System.out.println("Elige una opción: ");
-                System.out.println("1. Register plane");
-                System.out.println("2. View plane information");
-                System.out.println("3. Assign flight crew");
-                System.out.println("4. View flight information");
-                System.out.println("5. Create Airport");
-                System.out.println("6. View Airport information");
-                System.out.println("7. Update plane information");
-                System.out.println("8. Delete plane");
-                System.out.println("9. Assign flight plane");
-                System.out.println("10. Update flight information");
-                System.out.println("11. Delete flight");
-                System.out.println("12. Update airport information");
-                System.out.println("13. Delete airport");
-                System.out.println("14. View flight information");
-                System.out.println("15. View crew assignment");
-                System.out.println("16. View flight connections");
-                System.out.println("17. Update flight connection information");
-                System.out.println("18. Delete flight connection");
-                System.out.println("19. Register flight fare");
-                System.out.println("20. Update flight fare information");
-                System.out.println("21. Delete flight fare");
-                System.out.println("22. View flight fare");
-                System.out.println("23. Register type of document");
-                System.out.println("24. Update type of document");
-                System.out.println("25. Delete type of document");
-                System.out.println("26. View types of document");
-                System.out.println("27. Salir");
+                System.out.println("1. Gestion de Aviones");
+                System.out.println("2. Gestion de Tripulacion");
+                System.out.println("3. Gestion de Vuelos");
+                System.out.println("4. Gestion de Aeropuertos");
+                System.out.println("7. Gestion de Documentos ");
+                System.out.println("5. Conexiones de Vuelos");
+                System.out.println("6. Tarifas de Vuelo");
+                System.out.println("7. Salir");
                 
                 int option = scanner.nextInt();
                 scanner.nextLine();
                 
                 switch (option) {
-                    case 1 -> System.out.println("Register plane selected.");
+                    case 1 -> {
+                        System.out.println("1. Register plane");
+                        System.out.println("2. View plane information");
+                        System.out.println("3. Update plane information");
+                        System.out.println("4. Delete plane");
+                        System.out.println("5. Salir");
+
+                        int op= scanner.nextInt();
+                        scanner.nextLine();
+
+                        switch (op) {
+                            case 1 -> ;
+
+                        }
+                                break;
+                        
+                            default:
+                                break;
+                        }
+                    }
                     case 2 -> System.out.println("View plane information selected.");
                     case 3 -> System.out.println("Assign flight crew selected.");
                     case 4 -> System.out.println("View flight information selected.");
