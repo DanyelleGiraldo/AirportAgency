@@ -8,9 +8,17 @@ CREATE TABLE IF NOT EXISTS document_types (
     documentType VARCHAR(40) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS rol(
+    id INT PRIMARY KEY,
+    nombre VARCHAR(50)
+);
+
 CREATE TABLE IF NOT EXISTS user(
     id INT PRIMARY KEY,
     name VARCHAR(40),
+    password VARCHAR(20),
+    rol_id int,
+    CONSTRAINT FK_RolID FOREIGN KEY (rol_id) REFERENCES rol(id)
     
 );
 
