@@ -4,29 +4,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.airportagency.entities.airport.application.AirportCreateService;
-import com.airportagency.entities.airport.application.AirportDeleteService;
-import com.airportagency.entities.airport.application.AirportGetAllService;
-import com.airportagency.entities.airport.application.AirportSearchService;
-import com.airportagency.entities.airport.application.AirportUpdateService;
+import com.airportagency.entities.airport.application.AirportService;
 import com.airportagency.entities.airport.domain.entity.Airport;
 
 public class AirportConsoleAdapter {
     private final Scanner sc = new Scanner(System.in);
-    private final AirportCreateService airportCreateService;    
-    private final AirportUpdateService airportUpdateService;
-    private final AirportSearchService airportSearchService;
-    private final AirportDeleteService airportDeleteService;
-    private final AirportGetAllService airportGetAllService;
+    private final AirportService airportService;
 
-    public AirportConsoleAdapter(AirportCreateService airportCreateService, AirportUpdateService airportUpdateService,
-            AirportSearchService airportSearchService, AirportDeleteService airportDeleteService,
-            AirportGetAllService airportGetAllService) {
-        this.airportCreateService = airportCreateService;
-        this.airportUpdateService = airportUpdateService;
-        this.airportSearchService = airportSearchService;
-        this.airportDeleteService = airportDeleteService;
-        this.airportGetAllService = airportGetAllService;
+    
+
+    public AirportConsoleAdapter(AirportService airportService) {
+        this.airportService = airportService;
     }
 
     public void createAirport() {
@@ -38,7 +26,7 @@ public class AirportConsoleAdapter {
                 System.out.println("El ID debe tener exactamente 4 caracteres.");
                 continue;
             }
-            Optional<Airport> airport = airportSearchService.getAirportById(newID);
+            Optional<Airport> airport = airportService.getAirportById(newID);
             airport.ifPresentOrElse(a -> {
                 System.out.println("EL AEROPUERTO YA EXISTE");
                 System.out.println("PRESIONE CUALQUIER TECLA PARA SEGUIR");
@@ -49,7 +37,7 @@ public class AirportConsoleAdapter {
                 System.out.println("INGRESE EL ID DE LA CIUDAD DEL AEROPUERTO");
                 String idCity = sc.nextLine();
                 Airport newAirport = new Airport(newID, nameAirport, idCity);
-                airportCreateService.createAirport(newAirport);
+                airportService.createAirport(newAirport);
             });
             System.out.println("¿DESEA CREAR OTRO AEROPUERTO? [S] SI | [CUALQUIER TECLA] NO");
             option = sc.nextLine();
@@ -59,7 +47,7 @@ public class AirportConsoleAdapter {
     public void searchAirport() {
         System.out.println("INGRESE EL ID DEL AEROPUERTO A BUSCAR:");
         String airportId = sc.nextLine();
-        Optional<Airport> airport = airportSearchService.getAirportById(airportId);
+        Optional<Airport> airport = airportService.getAirportById(airportId);
         airport.ifPresentOrElse(a -> System.out.println("ID: " + a.getId() + " NOMBRE: " + a.getAirport() + " ID CIUDAD: " + a.getIdCity()),
                 () -> System.out.println("AEROPUERTO NO ENCONTRADO"));
         System.out.println("PRESIONE CUALQUIER TECLA PARA SEGUIR");
@@ -69,7 +57,7 @@ public class AirportConsoleAdapter {
     public void updateAirport() {
         System.out.println("INGRESE EL ID DEL AEROPUERTO A EDITAR:");
         String airportId = sc.nextLine();
-        Optional<Airport> airport = airportSearchService.getAirportById(airportId);
+        Optional<Airport> airport = airportService.getAirportById(airportId);
         airport.ifPresentOrElse(a -> {
             System.out.println("ID: " + a.getId() + " NOMBRE: " + a.getAirport() + " ID CIUDAD: " + a.getIdCity());
             System.out.println("INGRESE EL NUEVO NOMBRE DEL AEROPUERTO:");
@@ -77,7 +65,7 @@ public class AirportConsoleAdapter {
             System.out.println("INGRESE EL ID DE LA NUEVA CIUDAD:");
             String newCity = sc.nextLine();
             Airport updatedAirport = new Airport(a.getId(), newName, newCity);
-            airportUpdateService.updateAirport(updatedAirport);
+            airportService.updateAirport(updatedAirport);
         }, () -> System.out.println("AEROPUERTO NO ENCONTRADO"));
         System.out.println("PRESIONE CUALQUIER TECLA PARA SEGUIR");
         sc.nextLine();
@@ -86,9 +74,9 @@ public class AirportConsoleAdapter {
     public void deleteAirport(){
         System.out.println("INGRESE EL ID DEL AEREOPUERTO A ELIMINAR");
         String airportId = sc.nextLine();
-        Optional<Airport> airport = airportSearchService.getAirportById(airportId);
+        Optional<Airport> airport = airportService.getAirportById(airportId);
         airport.ifPresentOrElse(a->{
-            airportDeleteService.DeleteAirport(airportId);
+            airportService.deleteAirport(airportId);
             System.out.println("AEREOPUERTO ELIMINADO");
         }, ()-> System.out.println("AEREOPUERTO NO ENCONTRADO"));
 
@@ -97,7 +85,7 @@ public class AirportConsoleAdapter {
     }
 
     public void getAllAirports (){
-        List<Airport> allAirports  = airportGetAllService.GetAllAirports();
+        List<Airport> allAirports  = airportService.getAllAirports();
         if(allAirports.isEmpty()){
             System.out.println("NO HAY AEREOPUERTOS REGISTRADOS");
         }else {
