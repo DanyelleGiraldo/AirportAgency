@@ -43,7 +43,7 @@ public class TripBookingConsoleAdapter {
             boolean isValidId = false;
     
             while (!isValidId) {
-                System.out.println("[*] ASIGNE UN ID A LA RESERVA DE VUELO A CREAR (MÁXIMO 5 CARACTERES): ");
+                System.out.println("ASIGNE UN ID A LA RESERVA DE VUELO A CREAR (MÁXIMO 5 CARACTERES): ");
                 id = sc.nextLine();
     
                 if (id.length() <= 5) {
@@ -189,7 +189,7 @@ public class TripBookingConsoleAdapter {
                 }
             );
         }
-        System.out.println("[*] PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+        System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
         sc.nextLine();
     }
     
@@ -208,7 +208,7 @@ public class TripBookingConsoleAdapter {
             flightFare.ifPresentOrElse(
                 tc -> {
                     System.out.println("*************** TARIFA DE VUELO ***************");
-                    System.out.println(MessageFormat.format("[*] ID : {0}\n[*] DESCRIPCION: {1}\n[*] VALOR: {2}\n", tc.getId(), tc.getDescription(), tc.getValue()));
+                    System.out.println(MessageFormat.format(" ID : {0}\n DESCRIPCION: {1}\nVALOR: {2}\n", tc.getId(), tc.getDescription(), tc.getValue()));
                     sc.nextLine();
                 },
                 () -> {

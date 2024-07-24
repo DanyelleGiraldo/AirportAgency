@@ -29,7 +29,7 @@ public class TripBookingDetailsConsoleAdapter {
             Optional<TripBookingDetails> tripBookingDetails = tripBookingDetailsService.getTripBookingDetailsById(newId);
             tripBookingDetails.ifPresentOrElse(
                 tb -> {
-                    System.out.println(MessageFormat.format("[!] EL ID (0) YA ESTA OCUPADO.", tb.getId()));
+                    System.out.println(MessageFormat.format(" EL ID (0) YA ESTA OCUPADO.", tb.getId()));
                 },
                 () -> {
                     int seatNumber = 0;

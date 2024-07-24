@@ -33,7 +33,7 @@ public class TripConsoleAdapter {
             Optional<Trip> trip = tripService.getTripById(id);
             trip.ifPresentOrElse(
                 t -> {
-                    System.out.println(MessageFormat.format("[!] EL VIAJE CON ID (0) YA EXISTE.", t.getId()));
+                    System.out.println(MessageFormat.format("EL VIAJE CON ID (0) YA EXISTE.", t.getId()));
                 },
                 () -> {
                     System.out.println("*************** REGISTRAR VIAJE ***************");

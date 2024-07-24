@@ -30,25 +30,25 @@ public class PlaneConsoleAdapter {
 
         while(option.equalsIgnoreCase("S")){
             System.out.println("------REGISTRO DE AVION--------");
-            System.out.println("\n[*]  INGRESE EL ID DEL AVION");
+            System.out.println("\nINGRESE EL ID DEL AVION");
             String newId = sc.nextLine();
 
             Optional<Plane> plane = planesService.findById(newId);
             plane.ifPresentOrElse(
                 g ->  {
-                    System.out.println("[!]  AVION YA EXISTENTE");
-                    System.out.println("[*]  PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+                    System.out.println("AVION YA EXISTENTE");
+                    System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
                     sc.nextLine();
                 },
                 ()-> {
                     boolean isActive = true;
-                    System.out.println("\n[*]  INGRESE LAS PLACAS DEL AVION");
+                    System.out.println("\nINGRESE LAS PLACAS DEL AVION");
                     String newPlates = sc.nextLine();
 
                     int newCapacity = 0;
 
                     while (isActive){
-                        System.out.println("\n[*]  INGRESE LA CAPACIDAD DEL AVION (SOLO NUMEROS ENTEROS)");
+                        System.out.println("\n INGRESE LA CAPACIDAD DEL AVION (SOLO NUMEROS ENTEROS)");
                         try {
                             newCapacity = (Integer.parseInt(sc.nextLine()));
                             isActive = false;
@@ -65,7 +65,7 @@ public class PlaneConsoleAdapter {
                     String newDate = "";
 
                     while (!isActiveDate) {
-                        System.out.println("\n[*] INGRESE LA FECHA DE FABRICACION (dd-MM-yyyy)");
+                        System.out.println("\nINGRESE LA FECHA DE FABRICACION (dd-MM-yyyy)");
                         newDate = sc.nextLine();
 
                         try {
@@ -169,7 +169,7 @@ public class PlaneConsoleAdapter {
                     while (isActiveState) {
                         List<Status> statuses = planesService.getAllStatuses();
                         if(statuses.isEmpty()){
-                            System.out.println("NO HAY ESTADOS REGISTRADOS\n\n[!] REGISTRE UN ESTADO");
+                            System.out.println("NO HAY ESTADOS REGISTRADOS\n\n REGISTRE UN ESTADO");
                             System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
                             sc.nextLine();
                             String optionStatus = "S";
@@ -383,7 +383,7 @@ public class PlaneConsoleAdapter {
                 while (isActiveState) {
                     List<Status> statuses = planesService.getAllStatuses();
                     if(statuses.isEmpty()){
-                        System.out.println("NO HAY ESTADOS REGISTRADOS\n\n[!] REGISTRE UN ESTADO");
+                        System.out.println("NO HAY ESTADOS REGISTRADOS\n\n REGISTRE UN ESTADO");
                         System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
                         sc.nextLine();
                         String optionStatus = "S";

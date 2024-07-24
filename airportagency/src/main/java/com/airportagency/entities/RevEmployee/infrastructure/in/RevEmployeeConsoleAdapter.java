@@ -81,22 +81,22 @@ public class RevEmployeeConsoleAdapter {
             Optional<RevEmployees> revEmployee = RevEmployeesService.findById(findId);
             revEmployee.ifPresentOrElse(
             f -> {
-                System.out.println("ID: "+ f.getId() + "\n  [*]  ID DEL EMPLEADO: " + f.getIdEmployee() + "\n  [*]  ID DE LA REVISION: " + f.getIdRevision());
+                System.out.println("ID: "+ f.getId() + "\n   ID DEL EMPLEADO: " + f.getIdEmployee() + "\n   ID DE LA REVISION: " + f.getIdRevision());
 
                 String updateId = f.getId();
 
-                System.out.println("[*]  INGRESE EL NUEVO ID DEL EMPLEADO");
+                System.out.println("INGRESE EL NUEVO ID DEL EMPLEADO");
                 String updateIdEmployee = sc.nextLine();
 
-                System.out.println("[*]  INGRESE EL NUEVO ID DE LA REVISION");
+                System.out.println("INGRESE EL NUEVO ID DE LA REVISION");
                 String updateIdRevision = sc.nextLine();
 
                 RevEmployees updateRevEmployees = new RevEmployees (updateIdEmployee, updateIdRevision,updateId);
                 RevEmployeesService.updateRevEmployee(updateRevEmployees);
             },
-            () -> System.out.println("[!]  REVISION NO ENCONTRADA")
+            () -> System.out.println("REVISION NO ENCONTRADA")
         );
-        System.out.println("[*]  PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+        System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
         sc.nextLine();
         }
     }

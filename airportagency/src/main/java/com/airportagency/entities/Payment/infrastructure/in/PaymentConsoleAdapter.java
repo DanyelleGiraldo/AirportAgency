@@ -35,7 +35,7 @@ public class PaymentConsoleAdapter {
             Optional<PaymentMethod> paymentMethod = paymentService.getPaymentMethodById(pMtID);
             paymentMethod.ifPresentOrElse(
                 pm -> {
-                    System.out.println(MessageFormat.format("[!] EL ID {0} YA ESTA OCUPADO.", pm.getId()));
+                    System.out.println(MessageFormat.format(" EL ID {0} YA ESTA OCUPADO.", pm.getId()));
                 },
                 () -> {
                     System.out.println("INGRESE LA DESCRIPCION DEL METODO PAGO A CREAR:");
@@ -60,7 +60,7 @@ public class PaymentConsoleAdapter {
             Optional<TripBooking> tripBooking = paymentService.getTripBookingById(id);
             tripBooking.ifPresentOrElse(
                 t -> {
-                    System.out.println(MessageFormat.format("[!] LA RESERVA CON ID (0) YA ESTA OCUPADA.", t.getId()));
+                    System.out.println(MessageFormat.format("LA RESERVA CON ID (0) YA ESTA OCUPADA.", t.getId()));
                 },
                 () -> {
                     System.out.println("REGISTRAR RESERVA DE VIAJE");

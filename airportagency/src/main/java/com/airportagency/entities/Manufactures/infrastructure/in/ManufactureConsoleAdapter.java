@@ -75,16 +75,16 @@ public class ManufactureConsoleAdapter {
 
                     String updateId = a.getId();
 
-                    System.out.println("[*]  INGRESE EL NUEVO NOMBRE DEL FABRICANTE");
+                    System.out.println("INGRESE EL NUEVO NOMBRE DEL FABRICANTE");
                     String updateName = scanner.nextLine();
 
                     Manufactures updatedManufacture = new Manufactures(updateId, updateName);
                     manufactureService.updateManufacturer(updatedManufacture);
                 },
-                () -> System.out.println("[!]  AEROLINEA NO ENCONTRADA")
+                () -> System.out.println(" AEROLINEA NO ENCONTRADA")
             );
         }
-        System.out.println("[*]  PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+        System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
         scanner.nextLine();
     }
 
