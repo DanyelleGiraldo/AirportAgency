@@ -199,6 +199,7 @@ public class TripConsoleAdapter {
             System.out.println("NO HAY NINGUN VIAJE REGISTRADO");
             sc.nextLine();
         } else {
+            @SuppressWarnings("unused")
             LocalDate tripDate = null;
             boolean isActiveDate = true;
             String newDate = "";
