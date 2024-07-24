@@ -5,26 +5,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.airportagency.entities.PaymentMethod.application.PaymentMethodCreateService;
-import com.airportagency.entities.PaymentMethod.application.PaymentMethodGetAllService;
-import com.airportagency.entities.PaymentMethod.application.PaymentMethodSearchService;
+
+import com.airportagency.entities.PaymentMethod.application.PaymentMethodService;
 import com.airportagency.entities.PaymentMethod.domain.entity.PaymentMethod;
 
 public class PaymentMethodConsoleAdapter {
     Scanner sc = new Scanner(System.in);
 
-    private final PaymentMethodCreateService paymentMethodCreateService;
-    private final PaymentMethodGetAllService paymentMethodGetAllService;
-    private final PaymentMethodSearchService paymentMethodSearchService;
+    private final PaymentMethodService paymentMethodService;
 
     
 
-    public PaymentMethodConsoleAdapter(PaymentMethodCreateService paymentMethodCreateService,
-            PaymentMethodGetAllService paymentMethodGetAllService,
-            PaymentMethodSearchService paymentMethodSearchService) {
-        this.paymentMethodCreateService = paymentMethodCreateService;
-        this.paymentMethodGetAllService = paymentMethodGetAllService;
-        this.paymentMethodSearchService = paymentMethodSearchService;
+    public PaymentMethodConsoleAdapter(PaymentMethodService paymentMethodService) {
+        this.paymentMethodService = paymentMethodService;
     }
 
     public void createPayMethod() {
@@ -34,7 +27,7 @@ public class PaymentMethodConsoleAdapter {
             System.out.println("REGISTRAR METODO DE PAGO");
             System.out.println("INGRESE EL ID DEL METODO DE PAGO A CREAR: ");
             int id = sc.nextInt();
-            Optional<PaymentMethod> paymentMethod = paymentMethodSearchService.getPayMethodById(id);
+            Optional<PaymentMethod> paymentMethod = paymentMethodService.getPayMethodById(id);
             paymentMethod.ifPresentOrElse(
                 c -> {
                     System.out.println(MessageFormat.format("EL ID (0) YA ESTA OCUPADO.", c.getId()));
@@ -46,7 +39,7 @@ public class PaymentMethodConsoleAdapter {
                     String paymentMethodName = sc.nextLine();
     
                     PaymentMethod newPaymentMethod = new PaymentMethod(id, paymentMethodName);
-                    paymentMethodCreateService.createPayMethod(newPaymentMethod);
+                    paymentMethodService.createPayMethod(newPaymentMethod);
                 });
 
             System.out.println("DESEA AÑADIR OTRO METODO DE PAGO? [S] - SI | [INGRESE CUALQUIER TECLA] - NO");
@@ -55,7 +48,7 @@ public class PaymentMethodConsoleAdapter {
     }
 
     public void searchPaymentMethod() {
-        List<PaymentMethod> paymentMethods = paymentMethodGetAllService.getAllPayMethods();
+        List<PaymentMethod> paymentMethods = paymentMethodService.getAllPayMethods();
         
         if (paymentMethods.isEmpty()) {
             System.out.println("NO HAY NINGUN METODO DE PAGO REGISTRADO");
@@ -65,7 +58,7 @@ public class PaymentMethodConsoleAdapter {
             System.out.println("INGRESE EL ID DEL METODO DE PAGO A BUSCAR: ");
             int id = sc.nextInt();
 
-            Optional<PaymentMethod> paymentMethod = paymentMethodSearchService.getPayMethodById(id);
+            Optional<PaymentMethod> paymentMethod = paymentMethodService.getPayMethodById(id);
             paymentMethod.ifPresentOrElse(
                 p -> {
                     System.out.println("METODO DE PAGO");
@@ -82,13 +75,13 @@ public class PaymentMethodConsoleAdapter {
     }
 
     public void getAllPayMethods() {
-        List<PaymentMethod> paymentMethods = paymentMethodGetAllService.getAllPayMethods();
+        List<PaymentMethod> paymentMethods = paymentMethodService.getAllPayMethods();
         
         if (paymentMethods.isEmpty()) {
             System.out.println("NO HAY NINGUN METODO DE PAGO REGISTRADO");
             sc.nextLine();
         } else {
-            paymentMethodGetAllService.getAllPayMethods().forEach(p -> {
+            paymentMethodService.getAllPayMethods().forEach(p -> {
                System.out.println(MessageFormat.format("ID : {0}\nMETODO PAGO : {1}", p.getId(), p.getPaymentMethod()));
             });
             System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");

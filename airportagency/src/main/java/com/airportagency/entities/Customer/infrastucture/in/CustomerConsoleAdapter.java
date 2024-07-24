@@ -5,32 +5,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.airportagency.entities.Customer.application.CustomerCreateService;
-import com.airportagency.entities.Customer.application.CustomerDeleteService;
-import com.airportagency.entities.Customer.application.CustomerGetAllService;
-import com.airportagency.entities.Customer.application.CustomerSearchService;
-import com.airportagency.entities.Customer.application.CustomerUpdateService;
+
+import com.airportagency.entities.Customer.application.CustomerService;
 import com.airportagency.entities.Customer.domain.entity.Customer;
 
 public class CustomerConsoleAdapter {
     Scanner sc = new Scanner(System.in);
 
-    private final CustomerCreateService customerCreateService;
-    private final CustomerUpdateService customerUpdateService;
-    private final CustomerDeleteService customerDeleteService;
-    private final CustomerSearchService customerSearchService;
-    private final CustomerGetAllService customerGetAllService;
+    private final CustomerService customerService;
 
-    public CustomerConsoleAdapter(CustomerCreateService customerCreateService,
-                                  CustomerUpdateService customerUpdateService, 
-                                  CustomerDeleteService customerDeleteService,
-                                  CustomerSearchService customerSearchService, 
-                                  CustomerGetAllService customerGetAllService) {
-        this.customerCreateService = customerCreateService;
-        this.customerUpdateService = customerUpdateService;
-        this.customerDeleteService = customerDeleteService;
-        this.customerSearchService = customerSearchService;
-        this.customerGetAllService = customerGetAllService;
+    
+
+    public CustomerConsoleAdapter(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     public void createCustomer(){
@@ -40,7 +27,7 @@ public class CustomerConsoleAdapter {
             System.out.println("REGISTRAR CLIENTE");
             System.out.println("INGRESE EL ID DEL CLIENTE: ");
             String id = sc.nextLine();
-            Optional<Customer> customer = customerSearchService.getCustomerById(id);
+            Optional<Customer> customer = customerService.getCustomerById(id);
             customer.ifPresentOrElse(
                 as -> System.out.println(MessageFormat.format("EL ID {0} YA ESTÁ OCUPADO.", as.getId())),
                 () -> {
@@ -63,7 +50,7 @@ public class CustomerConsoleAdapter {
                     sc.nextLine();
 
                     Customer newCustomer = new Customer(id, customerName, customerLastName, age, documentNumber, idDocumentType);
-                    customerCreateService.createCustomer(newCustomer);
+                    customerService.createCustomer(newCustomer);
                 }
             );
             System.out.println("DESEA AÑADIR OTRO CLIENTE? [S] - SI | [CUALQUIER TECLA] - NO");
@@ -72,7 +59,7 @@ public class CustomerConsoleAdapter {
     }
 
     public void searchCustomer(){
-        List<Customer> customers = customerGetAllService.getAllCustomers();
+        List<Customer> customers = customerService.getAllCustomers();
 
         if (customers.isEmpty()){
             System.out.println("NO HAY NINGÚN CLIENTE REGISTRADO");
@@ -82,7 +69,7 @@ public class CustomerConsoleAdapter {
             System.out.println("INGRESE EL ID DEL CLIENTE A BUSCAR: ");
             String searchId = sc.nextLine();
 
-            Optional<Customer> customer = customerSearchService.getCustomerById(searchId);
+            Optional<Customer> customer = customerService.getCustomerById(searchId);
             customer.ifPresentOrElse(
                 c -> {
                     System.out.println("CLIENTE");
@@ -101,7 +88,7 @@ public class CustomerConsoleAdapter {
     }
 
     public void updateCustomer(){
-        List<Customer> customers = customerGetAllService.getAllCustomers();
+        List<Customer> customers = customerService.getAllCustomers();
 
         if (customers.isEmpty()){
             System.out.println("NO HAY NINGÚN CLIENTE REGISTRADO");
@@ -110,7 +97,7 @@ public class CustomerConsoleAdapter {
             System.out.println("INGRESE EL ID DEL CLIENTE A ACTUALIZAR: ");
             String searchId = sc.nextLine();
 
-            Optional<Customer> customer = customerSearchService.getCustomerById(searchId);
+            Optional<Customer> customer = customerService.getCustomerById(searchId);
             customer.ifPresentOrElse(
                 c -> {
                     System.out.println("ACTUALIZAR CLIENTE");
@@ -136,7 +123,7 @@ public class CustomerConsoleAdapter {
                     sc.nextLine();
 
                     Customer updatedCustomer = new Customer(c.getId(), customerName, customerLastName, age, documentNumber, idDocumentType);
-                    customerUpdateService.updateCustomer(updatedCustomer);
+                    customerService.updateCustomer(updatedCustomer);
 
                     System.out.println("CLIENTE ACTUALIZADO CORRECTAMENTE.");
                 },
@@ -151,7 +138,7 @@ public class CustomerConsoleAdapter {
     }
 
     public void deleteCustomer(){
-        List<Customer> customers = customerGetAllService.getAllCustomers();
+        List<Customer> customers = customerService.getAllCustomers();
 
         if (customers.isEmpty()){
             System.out.println("NO HAY NINGÚN CLIENTE REGISTRADO");
@@ -160,10 +147,10 @@ public class CustomerConsoleAdapter {
             System.out.println("INGRESE EL ID DEL CLIENTE A ELIMINAR: ");
             String searchId = sc.nextLine();
 
-            Optional<Customer> customer = customerSearchService.getCustomerById(searchId);
+            Optional<Customer> customer = customerService.getCustomerById(searchId);
             customer.ifPresentOrElse(
                 c -> {
-                    customerDeleteService.deleteCustomer(searchId);
+                    customerService.deleteCustomer(searchId);
                     System.out.println("CLIENTE ELIMINADO CORRECTAMENTE.");
                 },
                 () -> {
@@ -176,13 +163,13 @@ public class CustomerConsoleAdapter {
     }
 
     public void getAllCustomers(){
-        List<Customer> customers = customerGetAllService.getAllCustomers();
+        List<Customer> customers = customerService.getAllCustomers();
 
         if (customers.isEmpty()){
             System.out.println("NO HAY NINGÚN CLIENTE REGISTRADO");
             sc.nextLine();
         } else {
-            customerGetAllService.getAllCustomers().forEach(c -> {
+            customerService.getAllCustomers().forEach(c -> {
                 System.out.println(MessageFormat.format("ID: {0}\nNOMBRE: {1}\nAPELLIDO: {2}\nEDAD: {3}\nNUMERO DE DOCUMENTO: {4}\nTIPO DE DOCUMENTO: {5}",
                         c.getId(), c.getName(), c.getLastName(), c.getAge(), c.getDocumentNumber(), c.getIdDocumentType()));
             });

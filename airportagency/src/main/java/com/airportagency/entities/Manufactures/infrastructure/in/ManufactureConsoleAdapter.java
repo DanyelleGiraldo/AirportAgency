@@ -4,32 +4,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.airportagency.entities.Manufactures.application.ManufactureCreateService;
-import com.airportagency.entities.Manufactures.application.ManufactureDeleteService;
-import com.airportagency.entities.Manufactures.application.ManufactureGetAllService;
-import com.airportagency.entities.Manufactures.application.ManufactureSearchService;
-import com.airportagency.entities.Manufactures.application.ManufactureUpdateService;
+
+import com.airportagency.entities.Manufactures.application.ManufactureService;
 import com.airportagency.entities.Manufactures.domain.entity.Manufactures;
 
 public class ManufactureConsoleAdapter {
     Scanner scanner = new Scanner(System.in);
+    private final ManufactureService manufactureService;
 
-    private final ManufactureCreateService manufactureCreateService;
-    private final ManufactureDeleteService manufactureDeleteService;
-    private final ManufactureUpdateService manufactureUpdateService;
-    private final ManufactureSearchService manufactureSearchService;
-    private final ManufactureGetAllService manufactureGetAllService;
-
-    
-
-    public ManufactureConsoleAdapter(ManufactureCreateService manufactureCreateService,
-            ManufactureDeleteService manufactureDeleteService, ManufactureUpdateService manufactureUpdateService,
-            ManufactureSearchService manufactureSearchService, ManufactureGetAllService manufactureGetAllService) {
-        this.manufactureCreateService = manufactureCreateService;
-        this.manufactureDeleteService = manufactureDeleteService;
-        this.manufactureUpdateService = manufactureUpdateService;
-        this.manufactureSearchService = manufactureSearchService;
-        this.manufactureGetAllService = manufactureGetAllService;
+    public ManufactureConsoleAdapter(ManufactureService manufactureService) {
+        this.manufactureService = manufactureService;
     }
 
     public void createManufacture(){
@@ -38,7 +22,7 @@ public class ManufactureConsoleAdapter {
         while(option.equalsIgnoreCase("S")){
             System.out.println("INGRESE EL ID DEL FABRICANTE");
             String newId =  scanner.nextLine();
-            Optional<Manufactures> Manufacture = manufactureSearchService.getManufacturerById(newId);
+            Optional<Manufactures> Manufacture = manufactureService.getManufacturerById(newId);
             Manufacture.ifPresentOrElse(
                 a -> {
                     System.out.println("FABRICANTE YA EXISTENTE");
@@ -50,7 +34,7 @@ public class ManufactureConsoleAdapter {
                     String nameManufacture =  scanner.nextLine();
             
                     Manufactures newManufacture = new Manufactures(newId, nameManufacture);
-                    manufactureCreateService.createManufacturer(newManufacture);
+                    manufactureService.createManufacturer(newManufacture);
                 }
             );
             System.out.println("DESEA REGISTRAR OTRO FABRICANTE? [S] SI | [CUALQUIER TECLA] NO");
@@ -59,14 +43,14 @@ public class ManufactureConsoleAdapter {
     }
 
     public void searchManufacture(){
-        List<Manufactures> allManufactures = manufactureGetAllService.getAllManufactures();
+        List<Manufactures> allManufactures = manufactureService.getAllManufactures();
         if(allManufactures.isEmpty()){
             System.out.println("NO HAY FABRICANTES REGISTRADOS");
         }   else {
             System.out.println("INGRESE EL ID DE EL FABRICANTE A BUSCAR\n\n");
             String findId = scanner.nextLine();
             
-            Optional<Manufactures> Manufacture = manufactureSearchService.getManufacturerById(findId);
+            Optional<Manufactures> Manufacture = manufactureService.getManufacturerById(findId);
             Manufacture.ifPresentOrElse(
                 a -> System.out.println("ID: "+ a.getId() + "NOMBRE: " + a.getManufacturer()),
                 () -> System.out.println("FABRICANTE NO ENCONTRADO")
@@ -77,14 +61,14 @@ public class ManufactureConsoleAdapter {
     }
 
     public void updateManufacture(){
-        List<Manufactures> allManufactures = manufactureGetAllService.getAllManufactures();
+        List<Manufactures> allManufactures = manufactureService.getAllManufactures();
         if(allManufactures.isEmpty()){
             System.out.println("NO HAY FABRICANTES REGISTRADOS");
         }   else {
             System.out.println("INGRESE EL ID DEL FABRICANTE A EDITAR\n\n");
             String findId = scanner.nextLine();
 
-            Optional<Manufactures> Manufacture = manufactureSearchService.getManufacturerById(findId);
+            Optional<Manufactures> Manufacture = manufactureService.getManufacturerById(findId);
             Manufacture.ifPresentOrElse(
                 a -> {
                     System.out.println("ID: "+ a.getId() + "NOMBRE: " + a.getManufacturer());
@@ -95,7 +79,7 @@ public class ManufactureConsoleAdapter {
                     String updateName = scanner.nextLine();
 
                     Manufactures updatedManufacture = new Manufactures(updateId, updateName);
-                    manufactureUpdateService.updateManufacturer(updatedManufacture);
+                    manufactureService.updateManufacturer(updatedManufacture);
                 },
                 () -> System.out.println("[!]  AEROLINEA NO ENCONTRADA")
             );
@@ -105,17 +89,17 @@ public class ManufactureConsoleAdapter {
     }
 
     public void deleteManufacture(){
-        List<Manufactures> allManufactures = manufactureGetAllService.getAllManufactures();
+        List<Manufactures> allManufactures = manufactureService.getAllManufactures();
         if(allManufactures.isEmpty()){
             System.out.println("NO HAY FABRICANTES REGISTRADOS");
         }   else {
             System.out.println("INGRESE EL ID DEL FABRICANTE A ELIMINAR\n\n");
             String findId = scanner.nextLine();
 
-            Optional<Manufactures> Manufacture = manufactureSearchService.getManufacturerById(findId);
+            Optional<Manufactures> Manufacture = manufactureService.getManufacturerById(findId);
             Manufacture.ifPresentOrElse(
                 a -> {
-                    manufactureDeleteService.deleteManufacturer(findId);
+                    manufactureService.deleteManufacturer(findId);
                 },
                 () -> System.out.println("FABRICANTE NO ENCONTRADO")
             );
@@ -125,12 +109,12 @@ public class ManufactureConsoleAdapter {
     }
 
     public void getAllManufactures(){
-        List<Manufactures> allManufactures = manufactureGetAllService.getAllManufactures();
+        List<Manufactures> allManufactures = manufactureService.getAllManufactures();
         if(allManufactures.isEmpty()){
             System.out.println("NO HAY FABRICANTES REGISTRADOS");
         }   else {
             System.out.println("FABRICANTES REGISTRADOS");
-            manufactureGetAllService.getAllManufactures().forEach(a -> {
+            manufactureService.getAllManufactures().forEach(a -> {
                 System.out.println("ID: "+ a.getId() + "NOMBRE: " + a.getManufacturer());
             });
         }

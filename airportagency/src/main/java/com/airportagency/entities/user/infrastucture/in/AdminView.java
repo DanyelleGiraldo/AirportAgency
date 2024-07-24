@@ -1,8 +1,18 @@
 package com.airportagency.entities.user.infrastucture.in;
 
 import java.util.Scanner;
+
+import com.airportagency.entities.Manufactures.infrastructure.out.ManufactureSQLRepository;
+import com.airportagency.entities.Plane.application.PlanesService;
 import com.airportagency.entities.Plane.infrastructure.in.PlaneConsoleAdapter;
+import com.airportagency.entities.Plane.infrastructure.out.PlaneSQLRepository;
+import com.airportagency.entities.PlaneModel.infrastructure.out.PlaneModelSQLRepository;
+import com.airportagency.entities.Status.infrastructure.out.StatusSQLRepository;
 public class AdminView {
+    PlaneSQLRepository planesMySQLRepository = new PlaneSQLRepository();
+    PlaneModelSQLRepository planeModelSQLRepository = new PlaneModelSQLRepository();
+    StatusSQLRepository statusSQLRepository = new StatusSQLRepository();
+    ManufactureSQLRepository manufactureSQLRepository = new ManufactureSQLRepository();
 
     public void start(){
         try (Scanner scanner = new Scanner(System.in)) {
@@ -34,8 +44,14 @@ public class AdminView {
 
                         switch (op) {
                             case 1 -> {
-                                PlaneConsoleAdapter planeConsoleAdapter = new PlaneConsoleAdapter(null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-                                planeConsoleAdapter.createPlanes();
+                                PlanesService planesService = new PlanesService(planesMySQLRepository, planeModelSQLRepository, statusSQLRepository, manufactureSQLRepository);
+                                PlaneConsoleAdapter planesConsoleController = new PlaneConsoleAdapter(planesService);
+                                planesConsoleController.createPlanes();
+                            }
+                            case 2 -> {
+                                PlanesService planesService = new PlanesService(planesMySQLRepository, planeModelSQLRepository, statusSQLRepository, manufactureSQLRepository);
+                                PlaneConsoleAdapter planeConsoleAdapter = new PlaneConsoleAdapter(planesService);
+                                planeConsoleAdapter.searchPlane();
                             }
                         }           
                     }

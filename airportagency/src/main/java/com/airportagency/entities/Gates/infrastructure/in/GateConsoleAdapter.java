@@ -4,30 +4,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.airportagency.entities.Gates.application.GateCreateService;
-import com.airportagency.entities.Gates.application.GateDeleteService;
-import com.airportagency.entities.Gates.application.GateGetAllService;
-import com.airportagency.entities.Gates.application.GateSearchService;
-import com.airportagency.entities.Gates.application.GateUpdateService;
+
+import com.airportagency.entities.Gates.application.GateService;
 import com.airportagency.entities.Gates.domain.entity.Gates;
 
 public class GateConsoleAdapter {
     Scanner sc = new Scanner(System.in);
 
-    private final GateCreateService gateCreateService;
-    private final GateDeleteService gateDeleteService;
-    private final GateUpdateService gateUpdateService;
-    private final GateSearchService gateSearchService;
-    private final GateGetAllService gateGetAllService;
+    private final GateService gateService;
 
-    public GateConsoleAdapter(GateCreateService gateCreateService, GateDeleteService gateDeleteService,
-            GateUpdateService gateUpdateService, GateSearchService gateSearchService,
-            GateGetAllService gateGetAllService) {
-        this.gateCreateService = gateCreateService;
-        this.gateDeleteService = gateDeleteService;
-        this.gateUpdateService = gateUpdateService;
-        this.gateSearchService = gateSearchService;
-        this.gateGetAllService = gateGetAllService;
+    public GateConsoleAdapter(GateService gateService) {
+        this.gateService = gateService;
     }
 
     public void createGates(){
@@ -37,7 +24,7 @@ public class GateConsoleAdapter {
             System.out.println("INGRESE EL ID DE LA COMPUERTA");
             String newId = sc.nextLine();
 
-            Optional<Gates> gate = gateSearchService.getGateById(newId);
+            Optional<Gates> gate = gateService.getGateById(newId);
             gate.ifPresentOrElse(
                 g ->  {
                     System.out.println("AIROLINEA YA EXISTENTE");
@@ -53,7 +40,7 @@ public class GateConsoleAdapter {
 
 
                     Gates gates = new Gates(newId, newGate, newIdAirport);
-                    gateCreateService.createGate(gates);
+                    gateService.createGate(gates);
                 }
             );
             System.out.println("DESEA CREAR OTRA COMPUERTA? [S] SI | [CUALQUIER TECLA] NO");
@@ -62,7 +49,7 @@ public class GateConsoleAdapter {
     }
 
     public void searchGates(){
-        List<Gates> gateList = gateGetAllService.getAllGates();
+        List<Gates> gateList = gateService.getAllGates();
 
         if(gateList.isEmpty()){
             System.out.println("NO HAY COMPUERTAS REGISTRADAS");
@@ -70,7 +57,7 @@ public class GateConsoleAdapter {
             System.out.println("INGRESE EL ID DE LA COMPUERTA\n\n");
             String findId = sc.nextLine();
 
-            Optional<Gates> gates = gateSearchService.getGateById(findId);
+            Optional<Gates> gates = gateService.getGateById(findId);
             gates.ifPresentOrElse(
                 f -> System.out.println("ID: "+ f.getId() + "\n COMPUERTA: " + f.getGate() + "\n ID DEL AEROPUERTO: " + f.getIdAirport()),
                 () -> System.out.println("COMPUERTA NO ENCONTRADA")
@@ -81,7 +68,7 @@ public class GateConsoleAdapter {
     }
 
     public void updateGate(){
-        List<Gates> gateList = gateGetAllService.getAllGates();
+        List<Gates> gateList = gateService.getAllGates();
 
         if(gateList.isEmpty()){
 
@@ -92,7 +79,7 @@ public class GateConsoleAdapter {
             System.out.println("INGRESE EL ID DE LA COMPUERTA A EDITAR\n\n");
             String findId = sc.nextLine();
 
-            Optional<Gates> gate = gateSearchService.getGateById(findId);
+            Optional<Gates> gate = gateService.getGateById(findId);
             gate.ifPresentOrElse(
             f -> {
                 System.out.println(" ID: "+ f.getId() + "\n COMPUERTA: " + f.getGate() + "\n ID DEL AEROPUERTO: " + f.getIdAirport());
@@ -106,7 +93,7 @@ public class GateConsoleAdapter {
                 String updateIdAirport = sc.nextLine();
 
                 Gates updateGates = new Gates (updateId,updateName, updateIdAirport);
-                gateUpdateService.updateGate(updateGates);
+                gateService.updateGate(updateGates);
             },
             () -> System.out.println("COMPUERTA NO ENCONTRADA")
         );
@@ -116,16 +103,16 @@ public class GateConsoleAdapter {
     }
 
     public void deletegates(){
-        List<Gates> gate = gateGetAllService.getAllGates();
+        List<Gates> gate = gateService.getAllGates();
         if(gate.isEmpty()){
             System.out.println("NO HAY COMPUERTAS REGISTRADAS");
         }   else {
             System.out.println("INGRESE EL ID DE LA COMPUERTA A ELIMINAR\n\n");
             String findId = sc.nextLine();
 
-            Optional<Gates> gates = gateSearchService.getGateById(findId);
+            Optional<Gates> gates = gateService.getGateById(findId);
             gates.ifPresentOrElse(
-                f -> gateDeleteService.deleteGates(findId),
+                f -> gateService.deleteGates(findId),
                 () -> System.out.println("COMPUERTA NO ENCONTRADA")
             );
         } 
@@ -134,11 +121,11 @@ public class GateConsoleAdapter {
     }
 
     public void getAllGates(){
-        List<Gates> gates = gateGetAllService.getAllGates();
+        List<Gates> gates = gateService.getAllGates();
         if(gates.isEmpty()){
             System.out.println("NO HAY COMPUERTAS REGISTRADAS");
         } else {
-            gateGetAllService.getAllGates().forEach(f -> {
+            gateService.getAllGates().forEach(f -> {
                 System.out.println("ID: "+ f.getId() + "\n COMPUERTA: " + f.getGate() + "\n ID DEL AEROPUERTO: " + f.getIdAirport());
             });
         }

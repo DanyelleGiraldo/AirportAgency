@@ -9,20 +9,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import com.airportagency.entities.Manufactures.domain.entity.Manufactures;
-import com.airportagency.entities.Plane.application.PlaneCreateManufactureService;
-import com.airportagency.entities.Plane.application.PlaneCreatePlaneModelsService;
-import com.airportagency.entities.Plane.application.PlaneCreateService;
-import com.airportagency.entities.Plane.application.PlaneCreateStatusService;
-import com.airportagency.entities.Plane.application.PlaneDeleteService;
-import com.airportagency.entities.Plane.application.PlaneGetAllManufactureService;
-import com.airportagency.entities.Plane.application.PlaneGetAllPlaneModelsService;
-import com.airportagency.entities.Plane.application.PlaneGetAllService;
-import com.airportagency.entities.Plane.application.PlaneGetAllStatusService;
-import com.airportagency.entities.Plane.application.PlaneSearchManufactureService;
-import com.airportagency.entities.Plane.application.PlaneSearchPlaneModelService;
-import com.airportagency.entities.Plane.application.PlaneSearchService;
-import com.airportagency.entities.Plane.application.PlaneSearchStatusService;
-import com.airportagency.entities.Plane.application.PlaneUpdateService;
+import com.airportagency.entities.Plane.application.PlanesService;
 import com.airportagency.entities.Plane.domain.entity.Plane;
 import com.airportagency.entities.PlaneModel.domain.entity.PlaneModels;
 import com.airportagency.entities.Status.domain.entity.Status;
@@ -30,48 +17,13 @@ import com.airportagency.entities.Status.domain.entity.Status;
 public class PlaneConsoleAdapter {
     Scanner sc = new Scanner(System.in);
 
-    private final PlaneCreateManufactureService planeCreateManufactureService;
-    private final PlaneCreatePlaneModelsService planeCreatePlaneModelsService;
-    private final PlaneCreateService planeCreateService;
-    private final PlaneCreateStatusService planeCreateStatusService;
-    private final PlaneDeleteService planeDeleteService;
-    private final PlaneGetAllManufactureService planeGetAllManufactureService;
-    private final PlaneGetAllPlaneModelsService planeGetAllPlaneModelsService;
-    private final PlaneGetAllService planeGetAllService;
-    private final PlaneGetAllStatusService planeGetAllStatusService;
-    private final PlaneSearchPlaneModelService planeSearchPlaneModelService;
-    private final PlaneSearchService planeSearchService;
-    private final PlaneSearchStatusService planeSearchStatusService;
-    private final PlaneUpdateService planeUpdateService;
-
-    
+    private PlanesService planesService;
     
     
 
-    public PlaneConsoleAdapter(PlaneCreateManufactureService planeCreateManufactureService,
-            PlaneCreatePlaneModelsService planeCreatePlaneModelsService, PlaneCreateService planeCreateService,
-            PlaneCreateStatusService planeCreateStatusService, PlaneDeleteService planeDeleteService,
-            PlaneGetAllManufactureService planeGetAllManufactureService,
-            PlaneGetAllPlaneModelsService planeGetAllPlaneModelsService, PlaneGetAllService planeGetAllService,
-            PlaneGetAllStatusService planeGetAllStatusService,
-            PlaneSearchManufactureService planeSearchManufactureService,
-            PlaneSearchPlaneModelService planeSearchPlaneModelService, PlaneSearchService planeSearchService,
-            PlaneSearchStatusService planeSearchStatusService, PlaneUpdateService planeUpdateService) {
-        this.planeCreateManufactureService = planeCreateManufactureService;
-        this.planeCreatePlaneModelsService = planeCreatePlaneModelsService;
-        this.planeCreateService = planeCreateService;
-        this.planeCreateStatusService = planeCreateStatusService;
-        this.planeDeleteService = planeDeleteService;
-        this.planeGetAllManufactureService = planeGetAllManufactureService;
-        this.planeGetAllPlaneModelsService = planeGetAllPlaneModelsService;
-        this.planeGetAllService = planeGetAllService;
-        this.planeGetAllStatusService = planeGetAllStatusService;
-        this.planeSearchPlaneModelService = planeSearchPlaneModelService;
-        this.planeSearchService = planeSearchService;
-        this.planeSearchStatusService = planeSearchStatusService;
-        this.planeUpdateService = planeUpdateService;
+    public PlaneConsoleAdapter(PlanesService planesService) {
+        this.planesService = planesService;
     }
-    
 
     public void createPlanes(){
         String option = "S";
@@ -81,7 +33,7 @@ public class PlaneConsoleAdapter {
             System.out.println("\n[*]  INGRESE EL ID DEL AVION");
             String newId = sc.nextLine();
 
-            Optional<Plane> plane = planeSearchService.getPlaneById(newId);
+            Optional<Plane> plane = planesService.findById(newId);
             plane.ifPresentOrElse(
                 g ->  {
                     System.out.println("[!]  AVION YA EXISTENTE");
@@ -130,7 +82,7 @@ public class PlaneConsoleAdapter {
                     String newIdModel = "";
 
                     while (isActiveModels) {
-                        List<PlaneModels> planeModels = planeGetAllPlaneModelsService.findAllModels();
+                        List<PlaneModels> planeModels = planesService.findAllModels();
                         if(planeModels.isEmpty()){
                             System.out.println("NO HAY MODELOS REGISTRADOS\n\n| REGISTRE UN MODELO");
                             System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
@@ -141,7 +93,7 @@ public class PlaneConsoleAdapter {
                                 System.out.println("\nINGRESE EL ID DEL MODELO");
                                 String findModelId = sc.nextLine();
 
-                                Optional<PlaneModels> models = planeSearchPlaneModelService.findByIdModel(findModelId);
+                                Optional<PlaneModels> models = planesService.findByIdModel(findModelId);
                                 models.ifPresentOrElse(
                                     
                                     g ->  {
@@ -156,7 +108,7 @@ public class PlaneConsoleAdapter {
                                         String newModel = sc.nextLine();
 
                                         
-                                        List<Manufactures> manufactures = planeGetAllManufactureService.getAllManufactures();
+                                        List<Manufactures> manufactures = planesService.getAllManufactures();
                                         if(manufactures.isEmpty()){
                                             System.out.println("\n NO HAY FABRICANTES REGISTRADOS\n\n  | REGISTRE UN FABRICANTE");
                                             sc.nextLine();
@@ -166,7 +118,7 @@ public class PlaneConsoleAdapter {
                                                 System.out.println("\n  INGRESE UN ID PARA EL FABRICANTE");
                                                 String findManufacturerId = sc.nextLine();
 
-                                                Optional<PlaneModels> manufacturer = planeSearchPlaneModelService.findByIdModel(findManufacturerId);
+                                                Optional<PlaneModels> manufacturer = planesService.findByIdModel(findManufacturerId);
                                                 manufacturer.ifPresentOrElse(
                                                     g ->  {
                                                         System.out.println("FABRICANTE YA EXISTENTE");
@@ -178,7 +130,7 @@ public class PlaneConsoleAdapter {
                                                         String nameManufacture =  sc.nextLine();
                                                 
                                                         Manufactures newManufacture = new Manufactures(findManufacturerId, nameManufacture);
-                                                        planeCreateManufactureService.createManufacturer(newManufacture);
+                                                        planesService.createManufacturer(newManufacture);
                                                     }
                                                 );
                                                 System.out.println("DESEA REGISTRAR OTRO FABRICANTE? [S] SI | [CUALQUIER TECLA] NO");
@@ -187,14 +139,14 @@ public class PlaneConsoleAdapter {
                                             
                                         }
                                         System.out.println("\nFABRICANTES REGISTRADOS\n");            
-                                        planeGetAllManufactureService.getAllManufactures().forEach(f -> {
+                                        planesService.getAllManufactures().forEach(f -> {
                                             System.out.println("\nID: "+ f.getId() + "\n NOMBRE: " + f.getManufacturer());
                                         });
                                         System.out.println("\nINGRESE EL ID DEL FABRICANTE DEL MODELO");
                                         String newIdManufacturer = sc.nextLine();
                                         
                                         PlaneModels planes = new PlaneModels(findModelId, newModel, newIdManufacturer);
-                                        planeCreatePlaneModelsService.createPlaneModels(planes);
+                                        planesService.createPlaneModels(planes);
                                     }
                                 );
                                 System.out.println("\nDESEA REGISTRAR OTRO MODELO? [S] SI | [CUALQUIER TECLA] NO");
@@ -203,7 +155,7 @@ public class PlaneConsoleAdapter {
 
                         } 
                         System.out.println("\nMODELOS REGISTRADOS\n");
-                        planeGetAllPlaneModelsService.findAllModels().forEach(f -> {
+                        planesService.findAllModels().forEach(f -> {
                             System.out.println("\nID DEL MODELO: "+ f.getId() + "\nMODELO: " + f.getModel() + "\nID DEL FABRICANTE: " + f.getIdManufacturer());
                         });
                         System.out.println("\nINGRESE EL ID DEL MODELO DEL AVION");
@@ -215,7 +167,7 @@ public class PlaneConsoleAdapter {
                     boolean isActiveState = true;
                     String newIdStatus = "";
                     while (isActiveState) {
-                        List<Status> statuses = planeGetAllStatusService.getAllStatuses();
+                        List<Status> statuses = planesService.getAllStatuses();
                         if(statuses.isEmpty()){
                             System.out.println("NO HAY ESTADOS REGISTRADOS\n\n[!] REGISTRE UN ESTADO");
                             System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
@@ -226,7 +178,7 @@ public class PlaneConsoleAdapter {
                                 System.out.println("\nINGRESE EL ID DEL ESTADO");
                                 String findStatusId = sc.nextLine();
 
-                                Optional<Status> status = planeSearchStatusService.getStatusById(findStatusId);
+                                Optional<Status> status = planesService.getStatusById(findStatusId);
                                 status.ifPresentOrElse(
                                     g ->  {
                                         System.out.println("ESTADO YA EXISTENTE");
@@ -239,7 +191,7 @@ public class PlaneConsoleAdapter {
                                         String statusName = sc.nextLine();
                         
                                         Status newStatus = new Status(findStatusId, statusName);
-                                        planeCreateStatusService.createStatus(newStatus);
+                                        planesService.createStatus(newStatus);
                                         System.out.println("ESTADO CREADO CORRECTAMENTE");
                                     }
                                 );
@@ -249,7 +201,7 @@ public class PlaneConsoleAdapter {
 
                         } 
                         System.out.println("\nESTADOS REGISTRADOS\n");
-                        planeGetAllStatusService.getAllStatuses().forEach(f -> {
+                        planesService.getAllStatuses().forEach(f -> {
                             System.out.println(MessageFormat.format("\nID : {0} \nESTADO : {1}", f.getId(), f.getStatus()));
                         });
 
@@ -259,7 +211,7 @@ public class PlaneConsoleAdapter {
                     }
                     
                     Plane planes = new Plane(newId, newPlates, newCapacity, fechaCreacion, newIdModel, newIdStatus);
-                    planeCreateService.createPlane(planes);
+                    planesService.createPlanes(planes);
                 }
             );
             System.out.println("DESEA REGISTRAR OTRO AVION? [S] SI | [CUALQUIER TECLA] NO");
@@ -268,7 +220,7 @@ public class PlaneConsoleAdapter {
     }
 
     public void searchPlane(){
-        List<Plane> planesList = planeGetAllService.getAllPlane();
+        List<Plane> planesList = planesService.findAll();
 
         if(planesList.isEmpty()){
             System.out.println("NO HAY AVIONES REGISTRADOS");
@@ -277,7 +229,7 @@ public class PlaneConsoleAdapter {
             System.out.println("INGRESE EL ID DEL AVION\n\n");
             String findId = sc.nextLine();
 
-            Optional<Plane> planes = planeSearchService.getPlaneById(findId);
+            Optional<Plane> planes = planesService.findById(findId);
             planes.ifPresentOrElse(
                 f -> System.out.println("ID: "+ f.getId() + "\n PLACAS: " + f.getPlates() + "\n CAPACIDAD DEL AVION: " + f.getCapacity() + "\n FECHA DE FABRICACION: "+ f.getFabricationDate() + "\n  ID DEL MODELO" + f.getIdModel() + "\n  ID DEL ESTADO:" + f.getIdStatus()),
                 () -> System.out.println("AVION NO ENCONTRADO")
@@ -288,7 +240,7 @@ public class PlaneConsoleAdapter {
     }
 
     public void updatePlane(){
-        List<Plane> planeList = planeGetAllService.getAllPlane();
+        List<Plane> planeList = planesService.findAll();
 
         if(planeList.isEmpty()){
 
@@ -299,7 +251,7 @@ public class PlaneConsoleAdapter {
             System.out.println("INGRESE EL ID DEL AVION A EDITAR\n\n");
             String findId = sc.nextLine();
 
-            Optional<Plane> model = planeSearchService.getPlaneById(findId);
+            Optional<Plane> model = planesService.findById(findId);
             model.ifPresentOrElse(
             f -> {
                 System.out.println("ID: "+ f.getId() + "\n PLACAS: " + f.getPlates() + "\n CAPACIDAD DEL AVION: " + f.getCapacity() + "\n FECHA DE FABRICACION: "+ f.getFabricationDate() + "\n ID DEL MODELO" + f.getIdModel() + "\n  ID DEL ESTADO:" + f.getIdStatus());
@@ -344,7 +296,7 @@ public class PlaneConsoleAdapter {
                 String newIdModel = "";
 
                 while (isActiveModels) {
-                    List<PlaneModels> planeModels = planeGetAllPlaneModelsService.findAllModels();
+                    List<PlaneModels> planeModels = planesService.findAllModels();
                     if(planeModels.isEmpty()){
                         System.out.println("NO HAY MODELOS REGISTRADOS\n\nREGISTRE UN MODELO");
                         System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
@@ -355,7 +307,7 @@ public class PlaneConsoleAdapter {
                             System.out.println("\nINGRESE EL ID DEL MODELO");
                             String findModelId = sc.nextLine();
 
-                            Optional<PlaneModels> models = planeSearchPlaneModelService.findByIdModel(findModelId);
+                            Optional<PlaneModels> models = planesService.findByIdModel(findModelId);
                             models.ifPresentOrElse(
                                 
                                 g ->  {
@@ -370,7 +322,7 @@ public class PlaneConsoleAdapter {
                                     String newModel = sc.nextLine();
 
                                     
-                                    List<Manufactures> manufactures = planeGetAllManufactureService.getAllManufactures();
+                                    List<Manufactures> manufactures = planesService.getAllManufactures();
                                     if(manufactures.isEmpty()){
                                         System.out.println("\nNO HAY FABRICANTES REGISTRADOS\n\nREGISTRE UN FABRICANTE");
                                         sc.nextLine();
@@ -380,7 +332,7 @@ public class PlaneConsoleAdapter {
                                             System.out.println("\n  INGRESE UN ID PARA EL FABRICANTE");
                                             String findManufacturerId = sc.nextLine();
 
-                                            Optional<PlaneModels> manufacturer = planeSearchPlaneModelService.findByIdModel(findManufacturerId);
+                                            Optional<PlaneModels> manufacturer = planesService.findByIdModel(findManufacturerId);
                                             manufacturer.ifPresentOrElse(
                                                 g ->  {
                                                     System.out.println("FABRICANTE YA EXISTENTE");
@@ -392,7 +344,7 @@ public class PlaneConsoleAdapter {
                                                     String nameManufacture =  sc.nextLine();
                                             
                                                     Manufactures newManufacture = new Manufactures(findManufacturerId, nameManufacture);
-                                                    planeCreateManufactureService.createManufacturer(newManufacture);
+                                                    planesService.createManufacturer(newManufacture);
                                                 }
                                             );
                                             System.out.println("DESEA REGISTRAR OTRO FABRICANTE? [S] SI | [CUALQUIER TECLA] NO");
@@ -401,14 +353,14 @@ public class PlaneConsoleAdapter {
                                         
                                     }
                                     System.out.println("\nFABRICANTES REGISTRADOS\n");            
-                                    planeGetAllManufactureService.getAllManufactures().forEach(q -> {
+                                    planesService.getAllManufactures().forEach(q -> {
                                         System.out.println("\n ID: "+ q.getId() + "\n  NOMBRE: " + q.getManufacturer());
                                     });
                                     System.out.println("\nINGRESE EL ID DEL FABRICANTE DEL MODELO");
                                     String newIdManufacturer = sc.nextLine();
                                     
                                     PlaneModels planes = new PlaneModels(findModelId, newModel, newIdManufacturer);
-                                    planeCreatePlaneModelsService.createPlaneModels(planes);
+                                    planesService.createPlaneModels(planes);
                                 }
                             );
                             System.out.println("\nDESEA REGISTRAR OTRO MODELO? [S] SI | [CUALQUIER TECLA] NO");
@@ -417,7 +369,7 @@ public class PlaneConsoleAdapter {
 
                     } 
                     System.out.println("\n MODELOS REGISTRADOS\n");
-                    planeGetAllPlaneModelsService.findAllModels().forEach(a -> {
+                    planesService.findAllModels().forEach(a -> {
                         System.out.println("\nID DEL MODELO: "+ f.getId() + "\nMODELO: " + a.getModel() + "\nID DEL FABRICANTE: " + a.getIdManufacturer());
                     });
                     System.out.println("\nINGRESE EL ID DEL MODELO DEL AVION");
@@ -428,7 +380,7 @@ public class PlaneConsoleAdapter {
                 boolean isActiveState = true;
                 String newIdStatus = "";
                 while (isActiveState) {
-                    List<Status> statuses = planeGetAllStatusService.getAllStatuses();
+                    List<Status> statuses = planesService.getAllStatuses();
                     if(statuses.isEmpty()){
                         System.out.println("NO HAY ESTADOS REGISTRADOS\n\n[!] REGISTRE UN ESTADO");
                         System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
@@ -439,7 +391,7 @@ public class PlaneConsoleAdapter {
                             System.out.println("\nINGRESE EL ID DEL ESTADO");
                             String findStatusId = sc.nextLine();
 
-                            Optional<Status> status = planeSearchStatusService.getStatusById(findStatusId);
+                            Optional<Status> status = planesService.getStatusById(findStatusId);
                             status.ifPresentOrElse(
                                 g ->  {
                                     System.out.println("ESTADO YA EXISTENTE");
@@ -452,7 +404,7 @@ public class PlaneConsoleAdapter {
                                     String statusName = sc.nextLine();
                     
                                     Status newStatus = new Status(findStatusId, statusName);
-                                    planeCreateStatusService.createStatus(newStatus);
+                                    planesService.createStatus(newStatus);
                                     System.out.println("ESTADO CREADO CORRECTAMENTE");
                                 }
                             );
@@ -462,7 +414,7 @@ public class PlaneConsoleAdapter {
 
                     } 
                     System.out.println("\n|ESTADOS REGISTRADOS\n");
-                    planeGetAllStatusService.getAllStatuses().forEach(b -> {
+                    planesService.getAllStatuses().forEach(b -> {
                         System.out.println(MessageFormat.format("\nID : {0} \nESTADO : {1}", b.getId(), b.getStatus()));
                     });
 
@@ -473,7 +425,7 @@ public class PlaneConsoleAdapter {
 
                       
                     Plane plane = new Plane(findId, newPlates, newCapacity, fechaCreacion, newIdModel, newIdStatus);
-                    planeUpdateService.updatePlane(plane);
+                    planesService.updatePlanes(plane);
             },
             () -> System.out.println("MODELO NO ENCONTRADO")
         );
@@ -481,7 +433,7 @@ public class PlaneConsoleAdapter {
     }
 
     public void deletePlane(){
-        List<Plane> models = planeGetAllService.getAllPlane();
+        List<Plane> models = planesService.findAll();
         if(models.isEmpty()){
             System.out.println("NO HAY MODELOS REGISTRADOS");
         }   else {
@@ -489,9 +441,9 @@ public class PlaneConsoleAdapter {
             System.out.println("\nINGRESE EL ID DEL AVION A ELIMINAR\n\n");
             String findId = sc.nextLine();
 
-            Optional<Plane> planeModels = planeSearchService.getPlaneById(findId);
+            Optional<Plane> planeModels = planesService.findById(findId);
             planeModels.ifPresentOrElse(
-                f -> planeDeleteService.deletePlane(findId),
+                f -> planesService.deletePlanes(findId),
                 () -> System.out.println("AVION NO ENCONTRADO")
             );
         } 
@@ -500,11 +452,11 @@ public class PlaneConsoleAdapter {
     }
 
     public void getAllPlanes(){
-        List<Plane> plane = planeGetAllService.getAllPlane();
+        List<Plane> plane = planesService.findAll();
         if(plane.isEmpty()){
             System.out.println("NO HAY AVIONES REGISTRADOS");
         } else {
-            planeGetAllService.getAllPlane().forEach(f -> {
+            planesService.findAll().forEach(f -> {
                 System.out.println("ID: "+ f.getId() + "\nPLACAS: " + f.getPlates() + "\n CAPACIDAD DEL AVION: " + f.getCapacity() + "\n FECHA DE FABRICACION: "+ f.getFabricationDate() + "\n  ID DEL MODELO" + f.getIdModel() + "\n  ID DEL ESTADO:" + f.getIdStatus());
             });
         }

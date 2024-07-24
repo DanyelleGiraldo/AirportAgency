@@ -8,52 +8,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.airportagency.entities.Payment.application.PaymentCreateService;
-import com.airportagency.entities.Payment.application.PaymentCreateTripBookingService;
-import com.airportagency.entities.Payment.application.PaymentDeleteService;
-import com.airportagency.entities.Payment.application.PaymentGetAllService;
-import com.airportagency.entities.Payment.application.PaymentGetAllTripBookingService;
-import com.airportagency.entities.Payment.application.PaymentSearchPaymentMethodService;
-import com.airportagency.entities.Payment.application.PaymentSearchService;
-import com.airportagency.entities.Payment.application.PaymentSearchTripBookingService;
-import com.airportagency.entities.Payment.application.PaymentUpdateService;
+import com.airportagency.entities.Payment.application.PaymentService;
 import com.airportagency.entities.Payment.domain.entity.Payment;
-import com.airportagency.entities.PaymentMethod.application.PaymentMethodCreateService;
-import com.airportagency.entities.PaymentMethod.application.PaymentMethodGetAllService;
 import com.airportagency.entities.PaymentMethod.domain.entity.PaymentMethod;
 import com.airportagency.entities.TripBooking.domain.entity.TripBooking;
 
 public class PaymentConsoleAdapter {
     Scanner sc = new Scanner(System.in);
-    private final PaymentCreateService paymentCreateService;
-    private final PaymentSearchService paymentSearchService;
-    private final PaymentMethodCreateService paymentMethodCreateService;
-    private final PaymentSearchTripBookingService paymentSearchTripBookingService;
-    private final PaymentCreateTripBookingService paymentCreateTripBookingService;
-    private final PaymentMethodGetAllService paymentMethodGetAllService;
-    private final PaymentGetAllTripBookingService paymentGetAllTripBookingService;
-    private final PaymentSearchPaymentMethodService paymentSearchPaymentMethodService;
+    private final PaymentService paymentService;
 
     
 
-    
-
-    public PaymentConsoleAdapter(PaymentCreateService paymentCreateService, PaymentUpdateService paymentUpdateService,
-            PaymentDeleteService paymentDeleteService, PaymentSearchService paymentSearchService,
-            PaymentGetAllService paymentGetAllService, PaymentMethodCreateService paymentMethodCreateService,
-            PaymentSearchTripBookingService paymentSearchTripBookingService,
-            PaymentCreateTripBookingService paymentCreateTripBookingService,
-            PaymentMethodGetAllService paymentMethodGetAllService,
-            PaymentGetAllTripBookingService paymentGetAllTripBookingService,
-            PaymentSearchPaymentMethodService paymentSearchPaymentMethodService) {
-        this.paymentCreateService = paymentCreateService;
-        this.paymentSearchService = paymentSearchService;
-        this.paymentMethodCreateService = paymentMethodCreateService;
-        this.paymentSearchTripBookingService = paymentSearchTripBookingService;
-        this.paymentCreateTripBookingService = paymentCreateTripBookingService;
-        this.paymentMethodGetAllService = paymentMethodGetAllService;
-        this.paymentGetAllTripBookingService = paymentGetAllTripBookingService;
-        this.paymentSearchPaymentMethodService = paymentSearchPaymentMethodService;
+    public PaymentConsoleAdapter(PaymentService paymentService) {
+        this.paymentService = paymentService;
     }
 
     public void createPaymentMethod() {
@@ -65,7 +32,7 @@ public class PaymentConsoleAdapter {
             System.out.println("INGRESE EL ID DEL METODO PAGO A CREAR: [NUMERO ENTERO]");
             int pMtID = Integer.parseInt(sc.nextLine());
 
-            Optional<PaymentMethod> paymentMethod = paymentSearchPaymentMethodService.getPaymentMethodById(pMtID);
+            Optional<PaymentMethod> paymentMethod = paymentService.getPaymentMethodById(pMtID);
             paymentMethod.ifPresentOrElse(
                 pm -> {
                     System.out.println(MessageFormat.format("[!] EL ID {0} YA ESTA OCUPADO.", pm.getId()));
@@ -75,7 +42,7 @@ public class PaymentConsoleAdapter {
                     String desc = sc.nextLine();
         
                     PaymentMethod newPaymentMethod = new PaymentMethod(pMtID, desc);
-                    paymentMethodCreateService.createPayMethod(newPaymentMethod);
+                    paymentService.createPaymentMethod(newPaymentMethod);
                 });
 
 
@@ -90,7 +57,7 @@ public class PaymentConsoleAdapter {
             System.out.println("REGISTRAR RESERVA DE VIAJE");
             System.out.println("INGRESE EL ID DE LA RESERVA DE VIAJE A CREAR: ");
             String id = sc.nextLine();
-            Optional<TripBooking> tripBooking = paymentSearchTripBookingService.getTripBookingById(id);
+            Optional<TripBooking> tripBooking = paymentService.getTripBookingById(id);
             tripBooking.ifPresentOrElse(
                 t -> {
                     System.out.println(MessageFormat.format("[!] LA RESERVA CON ID (0) YA ESTA OCUPADA.", t.getId()));
@@ -126,7 +93,7 @@ public class PaymentConsoleAdapter {
                     String newIdCustomer = sc.nextLine();
 
                     TripBooking newTripBooking = new TripBooking(id, fechaReserva, newIdTrip, newIdStatus, newIdCustomer);
-                    paymentCreateTripBookingService.createTripBooking(newTripBooking);
+                    paymentService.createTripBooking(newTripBooking);
                 });
             System.out.println("DESEA AÑADIR OTRA RESERVA DE VIAJE? [S] - SI | [INGRESE CUALQUIER TECLA] - NO");
             rta = sc.nextLine();
@@ -140,7 +107,7 @@ public class PaymentConsoleAdapter {
             System.out.println("REGISTRAR PAGO");
             System.out.println("INGRESE EL ID DEL PAGO A CREAR: ");
             String id = sc.nextLine();
-            Optional<Payment> payment = paymentSearchService.findById(id);
+            Optional<Payment> payment = paymentService.getPaymentById(id);
             payment.ifPresentOrElse(
                 p -> {
                     System.out.println(MessageFormat.format("EL ID {0} YA ESTA OCUPADO.", p.getId()));
@@ -150,7 +117,7 @@ public class PaymentConsoleAdapter {
                     double newAmount = sc.nextDouble();
 
                     System.out.println("INGRESE EL METODO DE PAGO: ");
-                    List<PaymentMethod> paymentMethods = paymentMethodGetAllService.getAllPayMethods();
+                    List<PaymentMethod> paymentMethods = paymentService.getAllPaymentMethods();
                     if (paymentMethods.isEmpty()) {
                         createPaymentMethod();
                     } else {
@@ -174,7 +141,7 @@ public class PaymentConsoleAdapter {
                         }
                     }
 
-                    List<TripBooking>  tripBookings = paymentGetAllTripBookingService.getAllTripBookings();
+                    List<TripBooking>  tripBookings = paymentService.getAllTripBookings();
                     if (tripBookings.isEmpty()) {
                         createTripBooking();
                     }
@@ -186,7 +153,7 @@ public class PaymentConsoleAdapter {
                     String idTripBooking = sc.nextLine();
 
                     Payment newPayment = new Payment(id, newAmount, idPayMethod, rta, idTripBooking);
-                    paymentCreateService.createPayment(newPayment);
+                    paymentService.createPayment(newPayment);
                 });
         }
     }

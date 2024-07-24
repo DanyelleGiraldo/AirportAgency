@@ -5,12 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import com.airportagency.entities.FlightConnection.application.FlightConnectionCreateService;
-import com.airportagency.entities.FlightConnection.application.FlightConnectionDeleteService;
-import com.airportagency.entities.FlightConnection.application.FlightConnectionGetAllService;
-import com.airportagency.entities.FlightConnection.application.FlightConnectionSearchService;
-import com.airportagency.entities.FlightConnection.application.FlightConnectionSearchTripService;
-import com.airportagency.entities.FlightConnection.application.FlightConnectionUpdateService;
+
+import com.airportagency.entities.FlightConnection.application.FlightConnectionService;
 import com.airportagency.entities.FlightConnection.domain.entity.FlightConnection;
 
 
@@ -18,25 +14,12 @@ import com.airportagency.entities.FlightConnection.domain.entity.FlightConnectio
 public class FlightConnectionConsoleAdapter {
     Scanner sc = new Scanner(System.in);
 
-    private final FlightConnectionCreateService flightConnectionCreateService;
-    private final FlightConnectionDeleteService flightConnectionDeleteService;
-    private final FlightConnectionUpdateService flightConnectionUpdateService;
-    private final FlightConnectionGetAllService flightConnectionGetAllService;
-    private final FlightConnectionSearchService flightConnectionSearchService;
-    private final FlightConnectionSearchTripService flightConnectionSearchTripService;
+    private final FlightConnectionService flightConnectionService;
 
-    public FlightConnectionConsoleAdapter(FlightConnectionCreateService flightConnectionCreateService,
-            FlightConnectionDeleteService flightConnectionDeleteService,
-            FlightConnectionUpdateService flightConnectionUpdateService,
-            FlightConnectionGetAllService flightConnectionGetAllService,
-            FlightConnectionSearchService flightConnectionSearchService,
-            FlightConnectionSearchTripService flightConnectionSearchTripService) {
-        this.flightConnectionCreateService = flightConnectionCreateService;
-        this.flightConnectionDeleteService = flightConnectionDeleteService;
-        this.flightConnectionUpdateService = flightConnectionUpdateService;
-        this.flightConnectionGetAllService = flightConnectionGetAllService;
-        this.flightConnectionSearchService = flightConnectionSearchService;
-        this.flightConnectionSearchTripService = flightConnectionSearchTripService;
+    
+
+    public FlightConnectionConsoleAdapter(FlightConnectionService flightConnectionService) {
+        this.flightConnectionService = flightConnectionService;
     }
 
     public void createFlightConnection() {
@@ -46,7 +29,7 @@ public class FlightConnectionConsoleAdapter {
             System.out.println("REGISTRAR TRAYECTO ");
             System.out.println("INGRESE EL ID DEL TRAYECTO A CREAR: ");
             String id = sc.nextLine();
-            Optional<FlightConnection> flightConnection = flightConnectionSearchService.getFlightConnectionById(id);
+            Optional<FlightConnection> flightConnection = flightConnectionService.getFlightConnectionById(id);
             flightConnection.ifPresentOrElse(
                 f -> {
                     System.out.println(MessageFormat.format(" EL ID (0) YA ESTA OCUPADO.", f.getId()));
@@ -70,7 +53,7 @@ public class FlightConnectionConsoleAdapter {
                     String flightConnectionAirplaneB = sc.nextLine();
     
                     FlightConnection newFlightConnection = new FlightConnection(id, flightConnectionOrder, flightConnectionTrip, flightConnectionPlane, flightConnectionAirplaneA, flightConnectionAirplaneB);
-                    flightConnectionCreateService.createFlightConnection(newFlightConnection);
+                    flightConnectionService.createFlightConnection(newFlightConnection);
                 });
 
             System.out.println("DESEA AÑADIR OTRO TRAYECTO? [S] - SI | [INGRESE CUALQUIER TECLA] - NO");
@@ -79,7 +62,7 @@ public class FlightConnectionConsoleAdapter {
     }
 
     public void searchFlightConnection() {
-        List<FlightConnection> flightConnections = flightConnectionGetAllService.getAllFlightConnections();
+        List<FlightConnection> flightConnections = flightConnectionService.getAllFlightConnections();
         
         if (flightConnections.isEmpty()) {
             System.out.println("NO HAY NINGUN TRAMO REGISTRADO");
@@ -89,7 +72,7 @@ public class FlightConnectionConsoleAdapter {
             System.out.println("INGRESE EL ID DEL TRAMO A BUSCAR: ");
             String findId = sc.nextLine();
 
-            Optional<FlightConnection> FlightConnection = flightConnectionSearchService.getFlightConnectionById(findId);
+            Optional<FlightConnection> FlightConnection = flightConnectionService.getFlightConnectionById(findId);
             FlightConnection.ifPresentOrElse(
                 e -> {
                     System.out.println("TRAMO");
@@ -106,7 +89,7 @@ public class FlightConnectionConsoleAdapter {
     }
 
     public void updateFlightConnection() {
-        List<FlightConnection> flightConnections = flightConnectionGetAllService.getAllFlightConnections();
+        List<FlightConnection> flightConnections = flightConnectionService.getAllFlightConnections();
 
         if (flightConnections.isEmpty()) {
             System.out.println("NO HAY NINGUN TRAMO REGISTRADO");
@@ -115,7 +98,7 @@ public class FlightConnectionConsoleAdapter {
             System.out.println("[?] INGRESE EL ID DEL TRAMO A BUSCAR: ");
             String findId = sc.nextLine();
 
-            Optional<FlightConnection> FlightConnection = flightConnectionSearchService.getFlightConnectionById(findId);
+            Optional<FlightConnection> FlightConnection = flightConnectionService.getFlightConnectionById(findId);
             FlightConnection.ifPresentOrElse(
             c -> {
                 System.out.println("REGISTRAR TRAYECTO");
@@ -136,7 +119,7 @@ public class FlightConnectionConsoleAdapter {
                 String flightConnectionAirplaneB = sc.nextLine();
 
                 FlightConnection newFlightConnection = new FlightConnection(findId, flightConnectionOrder, flightConnectionTrip, flightConnectionPlane, flightConnectionAirplaneA, flightConnectionAirplaneB);
-                flightConnectionUpdateService.updateFlightConnection(newFlightConnection);
+                flightConnectionService.updateFlightConnection(newFlightConnection);
 
                 System.out.println("TRAMO ACTUALIZADO CORRECTAMENTE.");
                 sc.nextLine();
@@ -152,7 +135,7 @@ public class FlightConnectionConsoleAdapter {
     }
 
     public void deleteFlightConnection() {
-        List<FlightConnection> flightConnections = flightConnectionGetAllService.getAllFlightConnections();
+        List<FlightConnection> flightConnections = flightConnectionService.getAllFlightConnections();
         
         if (flightConnections.isEmpty()) {
             System.out.println("NO HAY NINGUN TRAMO REGISTRADO");
@@ -161,12 +144,12 @@ public class FlightConnectionConsoleAdapter {
             System.out.println("INGRESE EL ID DEL TRAMO A ELIMINAR: ");
             String findId = sc.nextLine();
 
-            flightConnectionDeleteService.deleteFlightConnection(findId);
+            flightConnectionService.deleteFlightConnection(findId);
 
-            Optional<FlightConnection> flightConnection = flightConnectionSearchService.getFlightConnectionById(findId);
+            Optional<FlightConnection> flightConnection = flightConnectionService.getFlightConnectionById(findId);
             flightConnection.ifPresentOrElse(
                 c -> {
-                    flightConnectionDeleteService.deleteFlightConnection(findId);
+                    flightConnectionService.deleteFlightConnection(findId);
                     System.out.println("TRAMO ELIMINADO CORRECTAMENTE.");
                     sc.nextLine();
                 },
@@ -180,13 +163,13 @@ public class FlightConnectionConsoleAdapter {
     }
 
     public void getAllFlightConnections() {
-        List<FlightConnection> flightConnections = flightConnectionGetAllService.getAllFlightConnections();
+        List<FlightConnection> flightConnections = flightConnectionService.getAllFlightConnections();
         
         if (flightConnections.isEmpty()) {
             System.out.println("NO HAY NINGUN TRAMO REGISTRADO");
             sc.nextLine();
         } else {
-            flightConnectionGetAllService.getAllFlightConnections().forEach(f -> {
+            flightConnectionService.getAllFlightConnections().forEach(f -> {
                System.out.println(MessageFormat.format(" ID : {0}\n ORDEN : {1}\n VIAJE : {2}\n AVION : {3}\n AEREOPUERTO SALIDA : {4}\n AEREOPUERTO LLEGADA : {5}",f.getId(), f.getConnectionOrder(), f.getIdTrip(), f.getIdPlane(), f.getIdAirportA(), f.getIdArportB()));
             });
             System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
@@ -196,7 +179,7 @@ public class FlightConnectionConsoleAdapter {
 
     public void getFlightConnectionByTrip(){
 
-        List<FlightConnection> flightConnections = flightConnectionGetAllService.getAllFlightConnections();
+        List<FlightConnection> flightConnections = flightConnectionService.getAllFlightConnections();
         if (flightConnections.isEmpty()){
             System.out.println("NO HAY NINGUN TRAMO REGISTRADO");
         }   else{
@@ -204,7 +187,7 @@ public class FlightConnectionConsoleAdapter {
             System.out.println("\nINGRESE EL ID DEL VUELO QUE DESEA CONOCER EL TRAYECTO");
             String findIdTrip = sc.nextLine();
 
-            Optional<FlightConnection> connection = flightConnectionSearchTripService.getFlightConnectionByTrip(findIdTrip);
+            Optional<FlightConnection> connection = flightConnectionService.getFlightCOnnectionByTrip(findIdTrip);
                 
             connection.ifPresentOrElse( 
                 f -> {
