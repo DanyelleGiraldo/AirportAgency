@@ -44,7 +44,6 @@ public class TripService {
         return tripRepository.findById(id);
     }
 
-    // BOOKIN STATUS
 
     public void createBookingStatus(BookingStatus bookingStatus) {
         bookingStatusRepository.save(bookingStatus);
@@ -58,7 +57,6 @@ public class TripService {
         return bookingStatusRepository.findAll();
     }
     
-    // TRIP BOOKING
 
     public void createTripBooking(TripBooking tripBooking){
         tripBookingRepository.save(tripBooking);
@@ -92,7 +90,6 @@ public class TripService {
     }
 
 
-    // getTripsByParameters()
 
     public Optional<List<Trip>> getTripsByParameters(LocalDate tripDate, String idCityA, String idCityB){
         return tripRepository.findByParameters(tripDate, idCityA, idCityB);
