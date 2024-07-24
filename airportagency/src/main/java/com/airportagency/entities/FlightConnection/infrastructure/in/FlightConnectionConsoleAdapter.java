@@ -80,10 +80,10 @@ public class FlightConnectionConsoleAdapter {
                     sc.nextLine();
                 },
                 () -> {
-                    System.out.println("[!] TRAMO NO ENCONTRADO");
+                    System.out.println("TRAMO NO ENCONTRADO");
                     sc.nextLine();
                 });
-                System.out.println("[*] PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
+                System.out.println("PRESIONE CUALQUIER TECLA PARA CONTINUAR...");
                 sc.nextLine();
         }
     }
@@ -95,7 +95,7 @@ public class FlightConnectionConsoleAdapter {
             System.out.println("NO HAY NINGUN TRAMO REGISTRADO");
             sc.nextLine();
         } else {
-            System.out.println("[?] INGRESE EL ID DEL TRAMO A BUSCAR: ");
+            System.out.println("INGRESE EL ID DEL TRAMO A BUSCAR: ");
             String findId = sc.nextLine();
 
             Optional<FlightConnection> FlightConnection = flightConnectionService.getFlightConnectionById(findId);
