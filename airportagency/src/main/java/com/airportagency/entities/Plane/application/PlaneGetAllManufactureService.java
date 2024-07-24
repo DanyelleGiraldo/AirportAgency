@@ -12,7 +12,6 @@ public class PlaneGetAllManufactureService {
         this.manufacturesRepository = manufacturesRepository;
     }
 
-
     public List<Manufactures> getAllManufactures(){
         return manufacturesRepository.findAll();
     }
