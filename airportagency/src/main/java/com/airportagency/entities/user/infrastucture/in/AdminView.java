@@ -42,23 +42,22 @@ public class AdminView {
             boolean salir = false;
             
             while (!salir) {
-                System.out.println("1. Gestion de Aviones");
-                System.out.println("2. Gestion de Vuelos");
-                System.out.println("3. Gestion de Aeropuertos");
-                System.out.println("4. Gestion de Documentos ");
-                System.out.println("5. Conexiones de Vuelos");
-                System.out.println("6. Tarifas de Vuelo");
-                System.out.println("7. Salir");
+                System.out.println("1.Gestion de Aviones");
+                System.out.println("2.Gestion de Vuelos");
+                System.out.println("3.Gestion de Aeropuertos");
+                System.out.println("4.Gestión de Conexiones de Vuelo");
+                System.out.println("5.Gestión de Tarifas de Vuelo");
+                System.out.println("6.Salir");
                 
                 int option = scanner.nextInt();
                 scanner.nextLine();
                 
                 switch (option) {
                     case 1 -> {
-                        System.out.println("1. Registrar avión");
-                        System.out.println("2. Ver información del avión");
-                        System.out.println("3. Update plane information");
-                        System.out.println("4. Delete plane");
+                        System.out.println("1.Registrar avión");
+                        System.out.println("2.Ver información del avión");
+                        System.out.println("3.Actualizar información del avión");
+                        System.out.println("4.Eliminar avión");
                         System.out.println("5. Salir");
 
                         int op= scanner.nextInt();
@@ -89,81 +88,33 @@ public class AdminView {
                         }           
                     }
                     case 2 -> {
-                        System.out.println("1.Asignar tripulación de vuelo");
-                        System.out.println("2.Ver información del vuelo");
-                        System.out.println("3.Actualizar información del vuelo");
-                        System.out.println("4.Eliminar vuelo");
-                        System.out.println("5.Ver asignación de tripulación");
-                        System.out.println("6.Ver conexiones de vuelo");
-                        System.out.println("7.Actualizar información de conexión de vuelo");
-                        System.out.println("8.Eliminar conexión de vuelo");
-                        System.out.println("9.Registrar tarifa de vuelo");
-                        System.out.println("10.Actualizar información de tarifa de vuelo");
-                        System.out.println("11.Eliminar tarifa de vuelo");
-                        System.out.println("12.Ver tarifa de vuelo");
-                        System.out.println("13.salir");
+                        System.out.println("1.Ver informacion de un vuelo");
+                        System.out.println("2.Actualizar informacion de un vuelo");
+                        System.out.println("3.Eliminar vuelo");
+                        System.out.println("4.Salir");
 
                         int op = scanner.nextInt();
                         scanner.nextLine();
 
                         switch (op) {
                             case 1 -> {
-
-                            }
-                            case 2 -> {
                                 TripService tripService = new TripService(tripSQLRepository, bookingStatusrepositorySQL, tripBookingSQLRepository, airportRepositorySQL, customerRepositorySQL);
                                 TripConsoleAdapter tripConsoleAdapter = new TripConsoleAdapter(tripService);
                                 tripConsoleAdapter.searchTrip();
                             }
-                            case 3 -> {
+                            case 2 -> {
                                 TripService tripService = new TripService(tripSQLRepository, bookingStatusrepositorySQL, tripBookingSQLRepository, airportRepositorySQL, customerRepositorySQL);
                                 TripConsoleAdapter tripConsoleAdapter = new TripConsoleAdapter(tripService);
                                 tripConsoleAdapter.updateTrip();
                             }
-                            case 4 -> {
+                            case 3 -> {
                                 TripService tripService = new TripService(tripSQLRepository, bookingStatusrepositorySQL, tripBookingSQLRepository, airportRepositorySQL, customerRepositorySQL);
                                 TripConsoleAdapter tripConsoleAdapter = new TripConsoleAdapter(tripService);
                                 tripConsoleAdapter.deleteTrip();
                             }
-                            case 5 -> {
-
+                            case 4 -> {
+                                start();
                             }
-                            case 6 -> {
-                                FlightConnectionService flightConnectionService = new FlightConnectionService(flightConnectionMySQLRepository);
-                                FlightConnectionConsoleAdapter flightConnectionConsoleAdapter = new FlightConnectionConsoleAdapter(flightConnectionService);
-                                flightConnectionConsoleAdapter.getAllFlightConnections();
-                            }
-                            case 7 -> {
-                                FlightConnectionService flightConnectionService = new FlightConnectionService(flightConnectionMySQLRepository);
-                                FlightConnectionConsoleAdapter flightConnectionConsoleAdapter = new FlightConnectionConsoleAdapter(flightConnectionService);
-                                flightConnectionConsoleAdapter.updateFlightConnection();
-                            }
-                            case 8 -> {
-                                FlightConnectionService flightConnectionService = new FlightConnectionService(flightConnectionMySQLRepository);
-                                FlightConnectionConsoleAdapter flightConnectionConsoleAdapter = new FlightConnectionConsoleAdapter(flightConnectionService);
-                                flightConnectionConsoleAdapter.deleteFlightConnection();
-                            }
-                            case 9 -> {
-                                FlightFareService flightFareService = new FlightFareService(flightFareSQLRepository);
-                                FlightFareConsoleAdapter flightFareConsoleAdapter = new FlightFareConsoleAdapter(flightFareService);
-                                flightFareConsoleAdapter.createFlightFare();
-                            }
-                            case 10 -> {
-                                FlightFareService flightFareService = new FlightFareService(flightFareSQLRepository);
-                                FlightFareConsoleAdapter flightFareConsoleAdapter = new FlightFareConsoleAdapter(flightFareService);
-                                flightFareConsoleAdapter.updateFlightFare();
-                            }
-                            case 11 -> {
-                                FlightFareService flightFareService = new FlightFareService(flightFareSQLRepository);
-                                FlightFareConsoleAdapter flightFareConsoleAdapter = new FlightFareConsoleAdapter(flightFareService);
-                                flightFareConsoleAdapter.deleteFlightFare();
-                            }
-                            case 12 -> {
-                                FlightFareService flightFareService = new FlightFareService(flightFareSQLRepository);
-                                FlightFareConsoleAdapter flightFareConsoleAdapter = new FlightFareConsoleAdapter(flightFareService);
-                                flightFareConsoleAdapter.searchFlightFare();
-                            }
-                            case 13 -> start();
                         }
                     }
                     case 3 -> {
@@ -200,12 +151,76 @@ public class AdminView {
                             case 5 -> start();
                         }
                     }
-                    case 7 -> {
+                    case 4->{
+                        System.out.println("1.Ver conexiones de vuelo");
+                        System.out.println("2.Actualizar informacion de conexion de vuelo");
+                        System.out.println("3.Eliminar conexión de vuelo");
+                        System.out.println("4.Salir");
+
+                        int op = scanner.nextInt();
+                        scanner.nextLine();
+
+                        switch (op) {
+                            case 1 -> {
+                                FlightConnectionService flightConnectionService = new FlightConnectionService(flightConnectionMySQLRepository);
+                                FlightConnectionConsoleAdapter flightConnectionConsoleAdapter = new FlightConnectionConsoleAdapter(flightConnectionService);
+                                flightConnectionConsoleAdapter.searchFlightConnection();
+                            }
+                            case 2 -> {
+                                FlightConnectionService flightConnectionService = new FlightConnectionService(flightConnectionMySQLRepository);
+                                FlightConnectionConsoleAdapter flightConnectionConsoleAdapter = new FlightConnectionConsoleAdapter(flightConnectionService);
+                                flightConnectionConsoleAdapter.updateFlightConnection();
+                            }
+                            case 3 -> {
+                                FlightConnectionService flightConnectionService = new FlightConnectionService(flightConnectionMySQLRepository);
+                                FlightConnectionConsoleAdapter flightConnectionConsoleAdapter = new FlightConnectionConsoleAdapter(flightConnectionService);
+                                flightConnectionConsoleAdapter.deleteFlightConnection();
+                            }
+                            case 4 -> start();
+                        }
+                    }
+                    case 5->{
+                        System.out.println("1.Registrar tarifa de vuelo");
+                        System.out.println("2.Actualizar información de tarifa de vuelo");
+                        System.out.println("3.Eliminar tarifa de vuelo");
+                        System.out.println("4.Ver tarifa de vuelo");
+                        System.out.println("5.Salir");
+
+                        int op = scanner.nextInt();
+                        scanner.nextLine();
+
+                        switch (op) {
+                            case 1 -> {
+                                FlightFareService flightFareService = new FlightFareService(flightFareSQLRepository);
+                                FlightFareConsoleAdapter flightFareConsoleAdapter = new FlightFareConsoleAdapter(flightFareService);
+                                flightFareConsoleAdapter.createFlightFare();
+                            }
+                            case 2 -> {
+                                FlightFareService flightFareService = new FlightFareService(flightFareSQLRepository);
+                                FlightFareConsoleAdapter flightFareConsoleAdapter = new FlightFareConsoleAdapter(flightFareService);
+                                flightFareConsoleAdapter.updateFlightFare();
+                            }
+                            case 3 -> {
+                                FlightFareService flightFareService = new FlightFareService(flightFareSQLRepository);
+                                FlightFareConsoleAdapter flightFareConsoleAdapter = new FlightFareConsoleAdapter(flightFareService);
+                                flightFareConsoleAdapter.deleteFlightFare();
+                            }
+                            case 4 -> {
+                                FlightFareService flightFareService = new FlightFareService(flightFareSQLRepository);
+                                FlightFareConsoleAdapter flightFareConsoleAdapter = new FlightFareConsoleAdapter(flightFareService);
+                                flightFareConsoleAdapter.searchFlightFare();
+                            }
+                            case 5-> start();
+                        }
+
+
+                    }
+                    case 6 -> {
                         salir = true;
                         MainView mainView = new MainView();
                         mainView.start();
                     }
-                    default -> System.out.println("Opción no válida, por favor elige una opción entre 1 y 7.");
+                    default -> System.out.println("Opción no válida, por favor elige una opción entre 1 y 6.");
                 }
             }
         }
