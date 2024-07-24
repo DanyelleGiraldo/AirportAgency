@@ -45,6 +45,8 @@ public class PlaneConsoleAdapter {
     private final PlaneUpdateService planeUpdateService;
 
     
+    
+    
 
     public PlaneConsoleAdapter(PlaneCreateManufactureService planeCreateManufactureService,
             PlaneCreatePlaneModelsService planeCreatePlaneModelsService, PlaneCreateService planeCreateService,
@@ -69,6 +71,7 @@ public class PlaneConsoleAdapter {
         this.planeSearchStatusService = planeSearchStatusService;
         this.planeUpdateService = planeUpdateService;
     }
+    
 
     public void createPlanes(){
         String option = "S";

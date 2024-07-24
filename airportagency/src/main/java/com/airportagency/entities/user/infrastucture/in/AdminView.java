@@ -1,7 +1,7 @@
 package com.airportagency.entities.user.infrastucture.in;
 
 import java.util.Scanner;
-
+import com.airportagency.entities.Plane.infrastructure.in.PlaneConsoleAdapter;
 public class AdminView {
 
     public void start(){
@@ -33,15 +33,14 @@ public class AdminView {
                         scanner.nextLine();
 
                         switch (op) {
-                            case 1 -> ;
-
-                        }
-                                break;
-                        
-                            default:
-                                break;
-                        }
+                            case 1 -> {
+                                PlaneConsoleAdapter planeConsoleAdapter = new PlaneConsoleAdapter(null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                                planeConsoleAdapter.createPlanes();
+                            }
+                        }           
                     }
+                
+                
                     case 2 -> System.out.println("View plane information selected.");
                     case 3 -> System.out.println("Assign flight crew selected.");
                     case 4 -> System.out.println("View flight information selected.");
