@@ -22,8 +22,8 @@ public class MainView {
                         login.start();
                     }
                     case 2 -> {
-                        System.out.println("Has elegido la opción 2") ;
-                        
+                        CustomerView login = new CustomerView();
+                        login.start();    
                     }
                     case 3 ->{
                         salir = true;

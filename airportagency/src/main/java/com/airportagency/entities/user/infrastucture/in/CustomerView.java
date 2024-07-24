@@ -41,16 +41,13 @@ public class CustomerView {
             boolean salir = false;
 
             while (!salir) {
-                System.out.println("Elige una opción: ");
-                System.out.println("1. Search flight");
-                System.out.println("2. Select flight");
-                System.out.println("3. Add passengers");
-                System.out.println("4. Select seats");
-                System.out.println("5. Realize payment");
-                System.out.println("6. View flight booking");
-                System.out.println("7. Cancel flight booking");
-                System.out.println("8. Update flight booking");
-                System.out.println("9. Salir");
+                System.out.println("1. Buscar vuelo");
+                System.out.println("2. Seleccionar vuelo");
+                System.out.println("3. Realizar pago");
+                System.out.println("4. Ver reserva de vuelo");
+                System.out.println("5. Cancelar reserva de vuelo");
+                System.out.println("6. Actualizar reserva de vuelo");
+                System.out.println("7. Salir");
 
                 int option = scanner.nextInt();
                 scanner.nextLine();
@@ -67,30 +64,30 @@ public class CustomerView {
                         tripBookingConsoleAdapter.selectTripBooking();
                     }
                     case 3 -> {
-
-                    }
-                    case 4 -> System.out.println("4");
-                    case 5 -> {
                         PaymentService paymentService = new PaymentService(paymentSQLRepository, paymentMethodSQLRepository, tripBookingSQLRepository);
                         PaymentConsoleAdapter paymentConsoleAdapter = new PaymentConsoleAdapter(paymentService);
                         paymentConsoleAdapter.createPayment();
                     }
-                    case 6 -> {
+                    case 4 -> {
                         TripBookingService tripBookingService = new TripBookingService(tripSQLRepository, customerRepositorySQL, tripBookingSQLRepository, bookingStatusrepositorySQL, flightFareSQLRepository, tripBookingDetailsSQLRepository, flightConnectionMySQLRepository, planeSQLRepository);
                         TripBookingConsoleAdapter tripBookingConsoleAdapter = new TripBookingConsoleAdapter(tripBookingService, customerService);
                         tripBookingConsoleAdapter.getAllTripBookings();
                     }
-                    case 7 -> {
+                    case 5 -> {
                         TripBookingService tripBookingService = new TripBookingService(tripSQLRepository, customerRepositorySQL, tripBookingSQLRepository, bookingStatusrepositorySQL, flightFareSQLRepository, tripBookingDetailsSQLRepository, flightConnectionMySQLRepository, planeSQLRepository);
                         TripBookingConsoleAdapter tripBookingConsoleAdapter = new TripBookingConsoleAdapter(tripBookingService, customerService);
                         tripBookingConsoleAdapter.cancelTripBooking();
                     }
-                    case 8 -> {
+                    case 6 -> {
                         TripBookingService tripBookingService = new TripBookingService(tripSQLRepository, customerRepositorySQL, tripBookingSQLRepository, bookingStatusrepositorySQL, flightFareSQLRepository, tripBookingDetailsSQLRepository, flightConnectionMySQLRepository, planeSQLRepository);
                         TripBookingConsoleAdapter tripBookingConsoleAdapter = new TripBookingConsoleAdapter(tripBookingService, customerService);
                         tripBookingConsoleAdapter.updateTripBooking();
                     }
-                    case 9 -> salir = true;
+                    case 7 -> {
+                        salir = true;
+                        MainView mainView = new MainView();
+                        mainView.start();
+                    }
                     default -> System.out.println("Opción no válida, por favor elige una opción entre 1 y 9.");
                 }
             }

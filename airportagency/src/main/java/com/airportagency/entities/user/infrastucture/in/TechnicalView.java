@@ -14,11 +14,12 @@ public class TechnicalView {
 
             while (!salir) {
                 System.out.println("Elige una opción: ");
-                System.out.println("1. Register revision");
-                System.out.println("2. View plane revision history");
-                System.out.println("3. Update revision information");
-                System.out.println("4. Delete maintenance revision");
+                System.out.println("1. Registrar revisión");
+                System.out.println("2. Ver historial de revisiones del avión");
+                System.out.println("3. Actualizar información de la revisión");
+                System.out.println("4. Eliminar revisión de mantenimiento");
                 System.out.println("5. Salir");
+
 
                 int option = scanner.nextInt();
                 scanner.nextLine();
@@ -44,7 +45,11 @@ public class TechnicalView {
                         RevisionConsoleAdapter revisionConsoleAdapter = new RevisionConsoleAdapter(revisionService);
                         revisionConsoleAdapter.deleteRevision();
                     }
-                    case 5 -> salir = true;
+                    case 5 -> {
+                        salir = true;
+                        MainView mainView = new MainView();
+                        mainView.start();
+                    }
                     default -> System.out.println("Opción no válida, por favor elige una opción entre 1 y 5.");
                 }
             }
