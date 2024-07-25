@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS document_types (
 
 CREATE TABLE IF NOT EXISTS rol(
     id INT PRIMARY KEY,
-    nombre VARCHAR(50)
+    name VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS user(
