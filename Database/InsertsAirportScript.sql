@@ -8,10 +8,10 @@ INSERT INTO document_types (id, documentType) VALUES (14, 'Military ID');
 INSERT INTO document_types (id, documentType) VALUES (15, 'Residence Permit');
 
 -- rol
-INSERT INTO rol (id, nombre) VALUES (11, 'Admin');
-INSERT INTO rol (id, nombre) VALUES (12, 'Tecnico');
-INSERT INTO rol (id, nombre) VALUES (13, 'Cliente');
-INSERT INTO rol (id, nombre) VALUES (14, 'Ventas');
+INSERT INTO rol (id, nombre) VALUES (11, 'admin');
+INSERT INTO rol (id, nombre) VALUES (12, 'technical');
+INSERT INTO rol (id, nombre) VALUES (13, 'customer');
+INSERT INTO rol (id, nombre) VALUES (14, 'sells');
 INSERT INTO rol (id, nombre) VALUES (15, 'Invitado');
 
 -- user
